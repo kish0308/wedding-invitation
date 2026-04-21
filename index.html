@@ -55,7 +55,7 @@ video {
   object-fit: cover;
 }
 
-/* 🎞️ DOCUMENTARY TITLE */
+/* 🎞️ TITLE */
 .title {
   font-size: 44px;
   background: linear-gradient(90deg,#d4af37,#fff5cc,#d4af37);
@@ -69,7 +69,7 @@ video {
   50% { filter: brightness(1.4); }
 }
 
-/* 🎙️ NARRATION TEXT */
+/* 🎙️ TEXT */
 .narration {
   max-width: 320px;
   font-size: 16px;
@@ -78,7 +78,7 @@ video {
   margin-top: 15px;
 }
 
-/* 📸 IMAGE STYLE */
+/* 📸 IMAGE */
 .story-img {
   width: 85%;
   max-width: 320px;
@@ -122,6 +122,19 @@ video {
   to { transform: translateY(-10vh); }
 }
 
+/* ⏳ COUNTDOWN STYLE */
+#countdown {
+  margin-top: 15px;
+  font-size: 18px;
+  font-family: monospace;
+  color: #d4af37;
+  background: rgba(0,0,0,0.3);
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(212,175,55,0.3);
+  box-shadow: 0 0 20px rgba(212,175,55,0.2);
+}
+
 /* 📍 MAP */
 iframe {
   border-radius: 14px;
@@ -144,7 +157,7 @@ for(let i=0;i<30;i++){
 }
 </script>
 
-<!-- 🎥 EPISODE 1: INTRO FILM -->
+<!-- 🎥 EPISODE 1 -->
 <div class="scene active" id="scene1">
 
   <video id="introVideo" autoplay muted playsinline>
@@ -185,14 +198,19 @@ for(let i=0;i<30;i++){
   </div>
 </div>
 
-<!-- 🎬 EPISODE 4 -->
+<!-- 🎬 EPISODE 4 + ⏳ COUNTDOWN -->
 <div class="scene" id="scene4">
   <div class="card">
     <h2>Episode 3: Forever</h2>
     <img class="story-img" src="photo3.jpg">
+
     <div class="narration">
       On May 09, 2026 — their story becomes forever.
     </div>
+
+    <!-- ⏳ COUNTDOWN -->
+    <div id="countdown">Loading countdown...</div>
+
     <button class="btn" onclick="nextScene()">Venue</button>
   </div>
 </div>
@@ -262,20 +280,17 @@ function showScene(n){
 
 function nextScene(){
   if(current < total){
-    fadeMusic();
     current++;
     showScene(current);
-    fadeMusicUp();
   }
 }
 
-// 🎵 CINEMATIC AUDIO CONTROL
+// 🎵 MUSIC
 function startMusic(){
   const m = document.getElementById("bgMusic");
   m.volume = 0;
   m.play().catch(()=>{});
 
-  // fade in
   let v = 0;
   let fade = setInterval(()=>{
     if(v < 0.6){
@@ -285,29 +300,29 @@ function startMusic(){
   },100);
 }
 
-function fadeMusic(){
-  const m = document.getElementById("bgMusic");
-  let v = m.volume;
+// ⏳ COUNTDOWN
+const weddingDate = new Date("May 09, 2026 15:00:00").getTime();
 
-  let fade = setInterval(()=>{
-    if(v > 0.2){
-      v -= 0.05;
-      m.volume = v;
-    } else clearInterval(fade);
-  },80);
+function updateCountdown(){
+  const now = new Date().getTime();
+  const diff = weddingDate - now;
+
+  if(diff < 0){
+    document.getElementById("countdown").innerHTML =
+      "💍 The Wedding Day Has Arrived";
+    return;
+  }
+
+  const d = Math.floor(diff/(1000*60*60*24));
+  const h = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+  const m = Math.floor((diff%(1000*60*60))/(1000*60));
+  const s = Math.floor((diff%(1000*60))/1000);
+
+  document.getElementById("countdown").innerHTML =
+    `${d}d : ${h}h : ${m}m : ${s}s`;
 }
 
-function fadeMusicUp(){
-  const m = document.getElementById("bgMusic");
-  let v = m.volume;
-
-  let fade = setInterval(()=>{
-    if(v < 0.6){
-      v += 0.05;
-      m.volume = v;
-    } else clearInterval(fade);
-  },80);
-}
+setInterval(updateCountdown,1000);
 
 // 🎬 START FLOW
 window.addEventListener("load",()=>{
