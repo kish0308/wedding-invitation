@@ -14,7 +14,7 @@ body {
   overflow-x: hidden;
 }
 
-/* 🌟 GLOW */
+/* 🌟 glow */
 body::before {
   content: "";
   position: fixed;
@@ -24,17 +24,59 @@ body::before {
   z-index: -1;
 }
 
+/* 🎥 VIDEO INTRO */
+#videoIntro {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: black;
+  z-index: 3000;
+}
+
+#videoIntro video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.videoOverlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.3);
+}
+
+.videoOverlay h1 {
+  font-size: 34px;
+  letter-spacing: 3px;
+}
+
+.videoOverlay button {
+  padding: 12px 20px;
+  background: rgba(0,0,0,0.6);
+  border: 1px solid white;
+  color: white;
+  margin-top: 10px;
+}
+
 /* 📜 ENVELOPE */
 #envelope {
   position: fixed;
   width: 100%;
   height: 100%;
   background: #f5e6d3;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  z-index: 1000;
+  z-index: 2000;
 }
 
 .flap {
@@ -42,18 +84,7 @@ body::before {
   height: 120px;
   background: #e0c3a0;
   clip-path: polygon(0 0, 100% 0, 50% 100%);
-  transition: transform 1.5s;
-  transform-origin: top;
-}
-
-.letter {
-  width: 200px;
-  height: 120px;
-  background: white;
-  margin-top: -60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transition: 1.5s;
 }
 
 /* 🌸 PETALS */
@@ -67,37 +98,28 @@ body::before {
   opacity: 0.6;
   animation: fall linear infinite;
 }
+
 @keyframes fall {
-  to { transform: translateY(100vh) translateX(40px) rotate(360deg); }
+  to {
+    transform: translateY(100vh) translateX(40px) rotate(360deg);
+  }
 }
 
-/* 💍 RING */
-.ring {
-  width: 120px;
-  height: 120px;
-  border: 3px solid gold;
-  border-radius: 50%;
-  margin: auto;
-  animation: spin 10s linear infinite;
-}
-@keyframes spin {
-  to { transform: rotate(360deg); }
+/* 💍 CONTENT */
+.container {
+  padding: 30px;
 }
 
-/* ✨ NAMES */
 .names {
   font-size: 38px;
   font-weight: bold;
   background: linear-gradient(90deg, #d4af37, #fff5cc, #d4af37);
   -webkit-background-clip: text;
   color: transparent;
-  animation: shimmer 3s linear infinite;
-}
-@keyframes shimmer {
-  to { background-position: 200% center; }
 }
 
-/* 🎞️ FADE */
+h1 { font-size: 42px; }
+
 .fade {
   opacity: 0;
   transform: translateY(40px);
@@ -108,6 +130,14 @@ body::before {
   transform: translateY(0);
 }
 
+/* 📸 */
+.gallery img {
+  width: 90%;
+  max-width: 300px;
+  margin: 10px;
+  border-radius: 12px;
+}
+
 /* BUTTON */
 .btn {
   padding: 12px 20px;
@@ -116,41 +146,40 @@ body::before {
   border-radius: 10px;
   text-decoration: none;
 }
-
-/* GALLERY */
-.gallery img {
-  width: 90%;
-  max-width: 300px;
-  margin: 10px;
-  border-radius: 12px;
-}
-
 </style>
 </head>
 
 <body>
 
-<div id="petals"></div>
+<!-- 🎥 NETFLIX STYLE INTRO -->
+<div id="videoIntro">
+  <video id="introVideo" playsinline muted>
+    <source src="prenup.mp4" type="video/mp4">
+  </video>
+
+  <div class="videoOverlay">
+    <h1>Kish & Glydel</h1>
+    <button onclick="skipVideo()">Skip Intro</button>
+  </div>
+</div>
 
 <!-- 📜 ENVELOPE -->
 <div id="envelope">
   <div class="flap" id="flap"></div>
-  <div class="letter">
-    <button onclick="openInvite()">Open Invitation</button>
-  </div>
+  <button onclick="openInvite()">Open Invitation</button>
 </div>
+
+<div id="petals"></div>
 
 <div class="container">
 
 <h1 class="fade">You're Invited</h1>
 
-<div class="ring fade"></div>
-
 <div class="names fade">Kish & Glydel</div>
 
 <div class="fade">
 May 09, 2026<br>
-3:00 PM<br><br>
+3:00 PM<br>
 Hila's Residence
 </div>
 
@@ -167,9 +196,8 @@ width="100%" height="250" style="border:0;">
 
 <!-- 📩 RSVP -->
 <div class="fade">
-<h3>RSVP</h3>
 <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeDr5oDuW-zchdjyluh25x_yBvxEZwGTUcqQTq1S87HJQ5WyA/viewform" target="_blank">
-Confirm Attendance
+RSVP Here
 </a>
 </div>
 
@@ -189,49 +217,68 @@ Confirm Attendance
 
 <script>
 
-// 📜 OPEN ENVELOPE
+// 🎬 VIDEO FLOW
+window.addEventListener("load", () => {
+  const video = document.getElementById("introVideo");
+
+  video.play().catch(()=>{});
+
+  video.onended = () => {
+    showEnvelope();
+  };
+});
+
+// ⏭ SKIP VIDEO
+function skipVideo() {
+  showEnvelope();
+}
+
+// 📜 SHOW ENVELOPE
+function showEnvelope() {
+  document.getElementById("videoIntro").style.display = "none";
+  document.getElementById("envelope").style.display = "flex";
+}
+
+// 💌 OPEN INVITE
 function openInvite() {
-  document.getElementById("flap").style.transform = "rotateX(180deg)";
+  document.getElementById("envelope").style.display = "none";
 
-  setTimeout(() => {
-    document.getElementById("envelope").style.display = "none";
+  document.getElementById("bgMusic").play();
 
-    document.getElementById("bgMusic").play();
+  document.querySelectorAll(".fade").forEach((el,i)=>{
+    setTimeout(()=>el.classList.add("show"), i*300);
+  });
 
-    document.querySelectorAll(".fade").forEach((el, i) => {
-      setTimeout(() => el.classList.add("show"), i * 400);
-    });
-
-    createPetals();
-  }, 1500);
+  createPetals();
+  startCountdown();
 }
 
 // ⏳ COUNTDOWN
+function startCountdown(){
 const weddingDate = new Date("May 09, 2026 15:00:00").getTime();
 
-setInterval(() => {
+setInterval(()=>{
   const now = new Date().getTime();
   const d = weddingDate - now;
 
-  if (d < 0) return;
-
   document.getElementById("countdown").innerHTML =
-    Math.floor(d/(1000*60*60*24))+"d "+
-    Math.floor((d%(1000*60*60*24))/(1000*60*60))+"h "+
-    Math.floor((d%(1000*60*60))/(1000*60))+"m "+
-    Math.floor((d%(1000*60))/1000)+"s";
+  Math.floor(d/(1000*60*60*24))+"d "+
+  Math.floor((d%(1000*60*60*24))/(1000*60*60))+"h "+
+  Math.floor((d%(1000*60*60))/(1000*60))+"m "+
+  Math.floor((d%(1000*60))/1000)+"s";
 },1000);
+}
 
 // 🌸 PETALS
-function createPetals() {
-  setInterval(() => {
-    const p = document.createElement("div");
-    p.className = "petal";
-    p.style.left = Math.random()*100+"vw";
-    p.style.animationDuration = (5+Math.random()*5)+"s";
-    document.body.appendChild(p);
-    setTimeout(()=>p.remove(),10000);
-  },400);
+function createPetals(){
+setInterval(()=>{
+  const p = document.createElement("div");
+  p.className="petal";
+  p.style.left=Math.random()*100+"vw";
+  p.style.animationDuration=(5+Math.random()*5)+"s";
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(),10000);
+},300);
 }
 
 </script>
