@@ -14,7 +14,7 @@ body {
   overflow: hidden;
 }
 
-/* 🌌 CINEMATIC BACKGROUND */
+/* 🌌 BACKGROUND */
 .bg {
   position: fixed;
   width: 100%;
@@ -122,7 +122,7 @@ video {
   to { transform: translateY(-10vh); }
 }
 
-/* ⏳ COUNTDOWN STYLE */
+/* ⏳ COUNTDOWN */
 #countdown {
   margin-top: 15px;
   font-size: 18px;
@@ -132,12 +132,15 @@ video {
   padding: 10px;
   border-radius: 10px;
   border: 1px solid rgba(212,175,55,0.3);
-  box-shadow: 0 0 20px rgba(212,175,55,0.2);
 }
 
-/* 📍 MAP */
-iframe {
-  border-radius: 14px;
+/* 🎨 ATTIRE STYLE */
+.attire-box {
+  text-align: left;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-top: 10px;
+  opacity: 0.9;
 }
 </style>
 </head>
@@ -159,17 +162,13 @@ for(let i=0;i<30;i++){
 
 <!-- 🎥 EPISODE 1 -->
 <div class="scene active" id="scene1">
-
   <video id="introVideo" autoplay muted playsinline>
     <source src="prenup.mp4" type="video/mp4">
   </video>
 
   <div style="position:absolute;">
     <div class="title">Kish & Glydel</div>
-    <div class="narration">
-      A love story that began quietly…<br>
-      and grew into forever.
-    </div>
+    <div class="narration">A love story that begins like a film…</div>
     <button class="btn" onclick="nextScene()">Begin Documentary</button>
   </div>
 </div>
@@ -179,9 +178,7 @@ for(let i=0;i<30;i++){
   <div class="card">
     <h2>Episode 1: The Beginning</h2>
     <img class="story-img" src="photo1.jpg">
-    <div class="narration">
-      Two paths crossed unexpectedly… and everything changed.
-    </div>
+    <div class="narration">Two paths crossed unexpectedly…</div>
     <button class="btn" onclick="nextScene()">Continue</button>
   </div>
 </div>
@@ -191,24 +188,44 @@ for(let i=0;i<30;i++){
   <div class="card">
     <h2>Episode 2: The Journey</h2>
     <img class="story-img" src="photo2.jpg">
-    <div class="narration">
-      Every moment built a story worth remembering forever.
-    </div>
+    <div class="narration">Every moment became a memory.</div>
     <button class="btn" onclick="nextScene()">Continue</button>
   </div>
 </div>
 
-<!-- 🎬 EPISODE 4 + ⏳ COUNTDOWN -->
+<!-- 🎨 EPISODE 3.5: ATTIRE -->
+<div class="scene" id="scene3a">
+  <div class="card">
+    <h2>🎨 Wedding Attire</h2>
+
+    <img class="story-img" src="attire.jpg">
+
+    <div class="narration">
+      Please join us in our chosen wedding palette.
+    </div>
+
+    <div class="attire-box">
+      💛 <b>Colors:</b> Gold • Champagne • Nude • Ivory • Blush Pink<br><br>
+
+      👔 <b>Gentlemen:</b> Beige suit • White polo • Light brown accents<br><br>
+
+      👗 <b>Ladies:</b> Pastel dresses • Champagne gowns • Soft pink tones
+    </div>
+
+    <button class="btn" onclick="nextScene()">Continue</button>
+  </div>
+</div>
+
+<!-- 🎬 EPISODE 4 -->
 <div class="scene" id="scene4">
   <div class="card">
     <h2>Episode 3: Forever</h2>
     <img class="story-img" src="photo3.jpg">
 
     <div class="narration">
-      On May 09, 2026 — their story becomes forever.
+      May 09, 2026 — the beginning of forever.
     </div>
 
-    <!-- ⏳ COUNTDOWN -->
     <div id="countdown">Loading countdown...</div>
 
     <button class="btn" onclick="nextScene()">Venue</button>
@@ -225,9 +242,7 @@ for(let i=0;i<30;i++){
       width="100%" height="200">
     </iframe>
 
-    <div class="narration">
-      Hila’s Residence — where love gathers.
-    </div>
+    <div class="narration">Hila’s Residence</div>
 
     <button class="btn" onclick="nextScene()">RSVP</button>
   </div>
@@ -238,9 +253,7 @@ for(let i=0;i<30;i++){
   <div class="card">
     <h2>RSVP</h2>
 
-    <div class="narration">
-      Your presence completes our story.
-    </div>
+    <div class="narration">Your presence completes our story.</div>
 
     <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeDr5oDuW-zchdjyluh25x_yBvxEZwGTUcqQTq1S87HJQ5WyA/viewform" target="_blank">
       Confirm Attendance
@@ -254,62 +267,61 @@ for(let i=0;i<30;i++){
 <div class="scene" id="scene7">
   <div class="card">
     <h2>Final Chapter</h2>
-
     <div class="narration">
-      Thank you for witnessing our story.<br><br>
+      Thank you for witnessing our love story.<br><br>
       — Kish & Glydel
     </div>
   </div>
 </div>
-
-<!-- 🎵 MUSIC -->
-<audio id="bgMusic" loop preload="auto">
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
 
 <script>
 
 let current = 1;
 const total = 7;
 
-// 🎬 SCENE CONTROL
-function showScene(n){
-  document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
-  document.getElementById("scene"+n).classList.add("active");
-}
-
+// 🎬 FIXED SCENE FLOW (supports 3a)
 function nextScene(){
+
+  if(current === 3){
+    current = "3a";
+    showScene("3a");
+    return;
+  }
+
+  if(current === "3a"){
+    current = 4;
+    showScene(4);
+    return;
+  }
+
   if(current < total){
     current++;
     showScene(current);
   }
 }
 
-// 🎵 MUSIC
+function showScene(n){
+  document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
+  document.getElementById("scene"+n).classList.add("active");
+}
+
+// 🎵 MUSIC (optional kept simple)
 function startMusic(){
   const m = document.getElementById("bgMusic");
+  if(!m) return;
   m.volume = 0;
   m.play().catch(()=>{});
-
-  let v = 0;
-  let fade = setInterval(()=>{
-    if(v < 0.6){
-      v += 0.05;
-      m.volume = v;
-    } else clearInterval(fade);
-  },100);
 }
 
 // ⏳ COUNTDOWN
 const weddingDate = new Date("May 09, 2026 15:00:00").getTime();
 
-function updateCountdown(){
+setInterval(()=>{
   const now = new Date().getTime();
   const diff = weddingDate - now;
 
   if(diff < 0){
-    document.getElementById("countdown").innerHTML =
-      "💍 The Wedding Day Has Arrived";
+    document.getElementById("countdown").innerHTML = "💍 Wedding Day";
     return;
   }
 
@@ -320,18 +332,16 @@ function updateCountdown(){
 
   document.getElementById("countdown").innerHTML =
     `${d}d : ${h}h : ${m}m : ${s}s`;
-}
 
-setInterval(updateCountdown,1000);
+},1000);
 
-// 🎬 START FLOW
+// 🎥 START VIDEO FLOW
 window.addEventListener("load",()=>{
   const video = document.getElementById("introVideo");
 
   video.play().catch(()=>{});
 
   video.onended = () => {
-    startMusic();
     nextScene();
   };
 });
