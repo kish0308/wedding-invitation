@@ -3,375 +3,190 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kish & Glydel Wedding</title>
+<title>Kish & Glydel Wedding Story</title>
 
 <style>
 body {
   margin: 0;
   font-family: 'Georgia', serif;
-  background: radial-gradient(circle at top, #fff8f3, #f7e7dc);
-  text-align: center;
-  overflow-x: hidden;
-}
-
-/* 🌟 glow background */
-body::before {
-  content: "";
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, rgba(255,215,0,0.08), transparent);
-  z-index: -1;
-}
-
-/* 🎥 VIDEO INTRO */
-#videoIntro {
-  position: fixed;
-  width: 100%;
-  height: 100%;
   background: black;
-  z-index: 3000;
+  color: white;
+  overflow: hidden;
 }
 
-#introVideo {
+/* 🎬 SCENES */
+.scene {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px;
+}
+
+.scene.active {
+  display: flex;
+  animation: fadeIn 1.2s ease;
+}
+
+@keyframes fadeIn {
+  from {opacity:0; transform: scale(1.05);}
+  to {opacity:1; transform: scale(1);}
+}
+
+/* 🎥 VIDEO */
+video {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* 🎬 OVERLAY */
-.videoOverlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.35);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  color: white;
-}
-
-/* 💍 TITLE */
-.videoTitle {
-  text-align: center;
-  animation: titleFade 4s ease forwards;
-}
-
-.titleMain {
-  font-size: 42px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  background: linear-gradient(90deg, #d4af37, #fff5cc, #d4af37);
-  background-size: 200% auto;
+/* 💍 TEXT */
+.title {
+  font-size: 38px;
+  background: linear-gradient(90deg,#d4af37,#fff5cc,#d4af37);
   -webkit-background-clip: text;
   color: transparent;
-  animation: shimmer 3s linear infinite;
 }
 
-.titleSub {
+.subtitle {
   font-size: 16px;
-  margin-top: 5px;
-  letter-spacing: 3px;
   opacity: 0.8;
-}
-
-/* ✨ animations */
-@keyframes titleFade {
-  0% { opacity: 0; transform: scale(0.8); }
-  30% { opacity: 1; transform: scale(1); }
-  70% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-@keyframes shimmer {
-  to { background-position: 200% center; }
-}
-
-/* 📜 ENVELOPE */
-#envelope {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at top, #2a1a14, #000);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  z-index: 2500;
-}
-
-/* glow */
-.env-glow {
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(212,175,55,0.3), transparent);
-  border-radius: 50%;
-  animation: pulse 3s infinite ease-in-out;
-}
-
-@keyframes pulse {
-  0%,100% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.3); opacity: 0.2; }
-}
-
-/* card */
-.envelope-box {
-  position: relative;
-  background: rgba(255,255,255,0.08);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,215,0,0.3);
-  padding: 30px 25px;
-  border-radius: 18px;
-  width: 280px;
-  text-align: center;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
-}
-
-/* seal */
-.seal {
-  font-size: 26px;
-  margin-bottom: 10px;
-  animation: float 2s infinite ease-in-out;
-}
-
-@keyframes float {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-}
-
-.envelope-box h2 {
-  color: #d4af37;
-  margin: 5px 0;
-}
-
-.env-names {
-  font-size: 22px;
-  color: white;
-}
-
-.env-sub {
-  font-size: 14px;
-  color: #ccc;
   margin-top: 10px;
 }
 
-.env-btn {
-  margin-top: 15px;
-  padding: 12px 20px;
-  background: linear-gradient(45deg, #b76e79, #d4af37);
-  border: none;
-  color: white;
-  border-radius: 10px;
-}
-
-/* 🌸 PETALS */
-.petal {
-  position: fixed;
-  top: -10px;
-  width: 8px;
-  height: 8px;
-  background: #ffc0cb;
-  border-radius: 50%;
-  opacity: 0.6;
-  animation: fall linear infinite;
-}
-
-@keyframes fall {
-  to {
-    transform: translateY(100vh) translateX(40px) rotate(360deg);
-  }
-}
-
-/* CONTENT */
-.container {
-  padding: 30px;
-}
-
-.names {
-  font-size: 38px;
-  font-weight: bold;
-  background: linear-gradient(90deg, #d4af37, #fff5cc, #d4af37);
-  -webkit-background-clip: text;
-  color: transparent;
-}
-
-h1 { font-size: 42px; }
-
-.fade {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: 2s ease;
-}
-
-.fade.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* gallery */
-.gallery img {
-  width: 90%;
-  max-width: 300px;
-  margin: 10px;
-  border-radius: 12px;
-}
-
+/* 📜 BUTTON */
 .btn {
+  margin-top: 20px;
   padding: 12px 20px;
-  background: linear-gradient(45deg, #b76e79, #d4af37);
+  border: none;
+  background: linear-gradient(45deg,#b76e79,#d4af37);
   color: white;
   border-radius: 10px;
-  text-decoration: none;
+}
+
+/* 🌸 BACKGROUND LAYER */
+.bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle,#1a1a1a,#000);
+  z-index: -1;
+}
+
+/* STORY CARD */
+.card {
+  max-width: 300px;
+  padding: 20px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🎥 VIDEO INTRO -->
-<div id="videoIntro">
-
-  <video id="introVideo" playsinline muted>
+<!-- 🎬 SCENE 1: VIDEO INTRO -->
+<div class="scene active" id="scene1">
+  <video id="introVideo" autoplay muted playsinline>
     <source src="prenup.mp4" type="video/mp4">
   </video>
 
-  <div class="videoOverlay">
-    <div class="videoTitle">
-      <div class="titleMain">Kish & Glydel</div>
-      <div class="titleSub">Wedding Invitation</div>
-    </div>
-
-    <button onclick="skipVideo()" style="margin-top:20px;">
-      Skip Intro
-    </button>
+  <div style="position:absolute;">
+    <div class="title">Kish & Glydel</div>
+    <div class="subtitle">Our Wedding Story Begins</div>
+    <button class="btn" onclick="nextScene()">Start Story</button>
   </div>
-
 </div>
 
-<!-- 📜 ENVELOPE -->
-<div id="envelope">
-  <div class="env-glow"></div>
+<!-- 💌 SCENE 2: ENVELOPE -->
+<div class="scene" id="scene2">
+  <div class="card">
+    <h2>💌 You Are Invited</h2>
+    <p>A special day is waiting for you</p>
+    <button class="btn" onclick="nextScene()">Open Story</button>
+  </div>
+</div>
 
-  <div class="envelope-box">
-    <div class="seal">💍</div>
-    <h2>Wedding Invitation</h2>
-    <div class="env-names">Kish & Glydel</div>
-    <div class="env-sub">
+<!-- 💍 SCENE 3: LOVE STORY -->
+<div class="scene" id="scene3">
+  <div class="card">
+    <h2>💍 Our Story</h2>
+    <p>
+      From strangers → friends → lovers<br><br>
+      Every moment led us here.
+    </p>
+    <button class="btn" onclick="nextScene()">Continue</button>
+  </div>
+</div>
+
+<!-- 📅 SCENE 4: DETAILS -->
+<div class="scene" id="scene4">
+  <div class="card">
+    <h2>📅 Wedding Details</h2>
+    <p>
       May 09, 2026<br>
-      3:00 PM<br>
-      Hila's Residence
-    </div>
-    <button class="env-btn" onclick="openInvite()">Open Invitation</button>
+      3:00 PM
+    </p>
+    <button class="btn" onclick="nextScene()">Location</button>
   </div>
 </div>
 
-<div id="petals"></div>
-
-<!-- MAIN -->
-<div class="container">
-
-<h1 class="fade">You're Invited</h1>
-
-<div class="names fade">Kish & Glydel</div>
-
-<div class="fade">
-May 09, 2026<br>
-3:00 PM<br>
-Hila's Residence
+<!-- 📍 SCENE 5: LOCATION -->
+<div class="scene" id="scene5">
+  <div class="card">
+    <h2>📍 Hila's Residence</h2>
+    <p>We can’t wait to see you there</p>
+    <button class="btn" onclick="nextScene()">RSVP</button>
+  </div>
 </div>
 
-<div id="countdown" class="fade"></div>
-
-<!-- MAP -->
-<div class="fade">
-<h3>Location</h3>
-<iframe 
-src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d268.39342950434235!2d124.03760950743883!3d12.993418406871323!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTLCsDU5JzM2LjIiTiAxMjTCsDAyJzE2LjEiRQ!5e0!3m2!1sen!2sph!4v1776776870268!5m2!1sen!2sph"
-width="100%" height="250" style="border:0;"></iframe>
+<!-- 📩 SCENE 6: RSVP -->
+<div class="scene" id="scene6">
+  <div class="card">
+    <h2>📩 RSVP</h2>
+    <p>Please confirm your attendance</p>
+    <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeDr5oDuW-zchdjyluh25x_yBvxEZwGTUcqQTq1S87HJQ5WyA/viewform" target="_blank">
+      Confirm Now
+    </a>
+    <br><br>
+    <button class="btn" onclick="nextScene()">Final Scene</button>
+  </div>
 </div>
 
-<!-- RSVP -->
-<div class="fade">
-<a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeDr5oDuW-zchdjyluh25x_yBvxEZwGTUcqQTq1S87HJQ5WyA/viewform" target="_blank">
-RSVP
-</a>
+<!-- 🎉 SCENE 7: END -->
+<div class="scene" id="scene7">
+  <div class="card">
+    <h2>✨ Thank You</h2>
+    <p>
+      We can’t wait to celebrate with you<br><br>
+      💍 Kish & Glydel
+    </p>
+  </div>
 </div>
-
-<!-- GALLERY -->
-<div class="gallery fade">
-<img src="photo1.jpg">
-<img src="photo2.jpg">
-<img src="photo3.jpg">
-</div>
-
-</div>
-
-<audio id="bgMusic" loop>
-<source src="music.mp3" type="audio/mpeg">
-</audio>
 
 <script>
 
-// 🎬 VIDEO FLOW
-window.addEventListener("load", () => {
-  const video = document.getElementById("introVideo");
+let current = 1;
 
-  video.play().catch(()=>{});
+function nextScene(){
+  document.getElementById("scene"+current).classList.remove("active");
+  current++;
+  const next = document.getElementById("scene"+current);
+  if(next){
+    next.classList.add("active");
+  }
+}
 
-  video.onended = showEnvelope;
+// autoplay video safety
+window.addEventListener("load",()=>{
+  const v = document.getElementById("introVideo");
+  v.play().catch(()=>{});
 });
-
-function skipVideo() {
-  showEnvelope();
-}
-
-function showEnvelope() {
-  document.getElementById("videoIntro").style.display = "none";
-  document.getElementById("envelope").style.display = "flex";
-}
-
-// 💌 OPEN INVITE
-function openInvite() {
-  document.getElementById("envelope").style.display = "none";
-  document.getElementById("bgMusic").play();
-
-  document.querySelectorAll(".fade").forEach((el,i)=>{
-    setTimeout(()=>el.classList.add("show"), i*300);
-  });
-
-  createPetals();
-  startCountdown();
-}
-
-// ⏳ COUNTDOWN
-function startCountdown(){
-const weddingDate = new Date("May 09, 2026 15:00:00").getTime();
-
-setInterval(()=>{
-  const now = new Date().getTime();
-  const d = weddingDate - now;
-
-  document.getElementById("countdown").innerHTML =
-    Math.floor(d/(1000*60*60*24))+"d "+
-    Math.floor((d%(1000*60*60*24))/(1000*60*60))+"h "+
-    Math.floor((d%(1000*60*60))/(1000*60))+"m "+
-    Math.floor((d%(1000*60))/1000)+"s";
-},1000);
-}
-
-// 🌸 PETALS
-function createPetals(){
-setInterval(()=>{
-  const p=document.createElement("div");
-  p.className="petal";
-  p.style.left=Math.random()*100+"vw";
-  p.style.animationDuration=(5+Math.random()*5)+"s";
-  document.body.appendChild(p);
-  setTimeout(()=>p.remove(),10000);
-},300);
-}
 
 </script>
 
