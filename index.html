@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wedding Invitation</title>
+<title>Kish & Glydel Wedding</title>
 
 <style>
 body {
@@ -12,31 +12,39 @@ body {
   background: linear-gradient(to bottom, #fdf6f0, #f7e7dc);
   text-align: center;
   color: #333;
+  overflow-x: hidden;
+}
+
+/* 🌸 PETALS */
+.petal {
+  position: fixed;
+  top: -10px;
+  width: 10px;
+  height: 10px;
+  background: pink;
+  border-radius: 50%;
+  opacity: 0.7;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+  }
 }
 
 /* Overlay */
 #musicOverlay {
   position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   background: #000000cc;
   color: white;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
   z-index: 999;
-}
-
-button {
-  padding: 14px 24px;
-  font-size: 16px;
-  background: #b76e79;
-  color: white;
-  border: none;
-  border-radius: 10px;
 }
 
 /* Content */
@@ -44,149 +52,157 @@ button {
   padding: 30px;
 }
 
-h1 {
-  font-size: 42px;
-  margin-top: 40px;
-}
+h1 { font-size: 42px; }
+.names { font-size: 34px; color: #b76e79; }
+.details { font-size: 18px; }
 
-.names {
-  font-size: 34px;
-  margin: 20px 0;
-  color: #b76e79;
-}
-
-.details {
-  font-size: 18px;
-  margin: 20px 0;
-}
-
-/* Countdown */
 #countdown {
   font-size: 26px;
-  margin-top: 25px;
-  color: #444;
+  margin-top: 20px;
 }
 
-/* Footer */
-.footer {
-  margin-top: 40px;
-  font-size: 14px;
-  color: #777;
-}
-
-/* ✨ Animation */
+/* Fade animation */
 .fade {
   opacity: 0;
   transform: translateY(30px);
-  transition: all 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: 1.5s ease;
 }
-
 .fade.show {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Delays */
 .delay-1 { transition-delay: 0.5s; }
 .delay-2 { transition-delay: 1s; }
 .delay-3 { transition-delay: 1.5s; }
-.delay-4 { transition-delay: 2s; }
 
+/* Gallery */
+.gallery img {
+  width: 90%;
+  max-width: 300px;
+  margin: 10px;
+  border-radius: 12px;
+}
+
+/* Buttons */
+button, .btn {
+  padding: 12px 20px;
+  background: #b76e79;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  margin-top: 10px;
+  display: inline-block;
+  text-decoration: none;
+}
 </style>
 </head>
 
 <body>
 
-<!-- 🎵 MUSIC OVERLAY -->
+<!-- 🌸 PETALS CONTAINER -->
+<div id="petals"></div>
+
+<!-- 🎵 OVERLAY -->
 <div id="musicOverlay">
   <h2>Welcome to Our Wedding</h2>
-  <button onclick="startExperience()">Enter Invitation</button>
+  <button onclick="startExperience()">Enter</button>
 </div>
 
-<!-- 💍 MAIN CONTENT -->
 <div class="container">
 
-  <h1 class="fade">You're Invited</h1>
+<h1 class="fade">You're Invited</h1>
 
-  <div class="names fade delay-1">
-    Kish & Glydel
-  </div>
+<div class="names fade delay-1">Kish & Glydel</div>
 
-  <div class="details fade delay-2">
-    Together with their families,<br><br>
-    invite you to celebrate their wedding<br><br>
+<div class="details fade delay-2">
+May 09, 2026<br>
+3:00 PM<br><br>
+Hila's Residence
+</div>
 
-    <strong>May 09, 2026</strong><br>
-    3:00 PM<br><br>
+<div id="countdown" class="fade delay-3"></div>
 
-    Hila's Residence
-  </div>
+<!-- 📍 MAP -->
+<div class="fade delay-3">
+  <h3>Location</h3>
+  <iframe 
+    src="https://maps.app.goo.gl/U9hmMmeyuscWnxLq8"
+    width="100%" height="250" style="border:0;" loading="lazy">
+  </iframe>
+</div>
 
-  <div id="countdown" class="fade delay-3"></div>
+<!-- 📩 RSVP -->
+<div class="fade delay-3">
+  <h3>RSVP</h3>
+  <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeDr5oDuW-zchdjyluh25x_yBvxEZwGTUcqQTq1S87HJQ5WyA/viewform?usp=header" target="_blank">
+    Confirm Attendance
+  </a>
+</div>
 
-  <div class="footer fade delay-4">
-    We can’t wait to celebrate with you 💕
-  </div>
+<!-- 📸 GALLERY -->
+<div class="gallery fade delay-3">
+  <h3>Our Moments</h3>
+  <img src="photo1.jpg">
+  <img src="photo2.jpg">
+  <img src="photo3.jpg">
+</div>
 
 </div>
 
-<!-- 🎵 BACKGROUND MUSIC -->
+<!-- 🎵 MUSIC -->
 <audio id="bgMusic" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-// 🎬 START EXPERIENCE
+// 🎬 START
 function startExperience() {
-  const music = document.getElementById("bgMusic");
-  music.play();
-
+  document.getElementById("bgMusic").play();
   document.getElementById("musicOverlay").style.display = "none";
 
-  startAnimations();
-}
-
-// ✨ ANIMATION TRIGGER
-function startAnimations() {
   document.querySelectorAll(".fade").forEach(el => {
     el.classList.add("show");
   });
+
+  createPetals();
 }
-
-// 🎵 AUTOPLAY TRY
-window.addEventListener("load", () => {
-  const music = document.getElementById("bgMusic");
-
-  music.play().then(() => {
-    document.getElementById("musicOverlay").style.display = "none";
-    startAnimations();
-  }).catch(() => {
-    // mobile fallback
-  });
-});
 
 // ⏳ COUNTDOWN
 const weddingDate = new Date("May 09, 2026 15:00:00").getTime();
 
-const countdownFunction = setInterval(() => {
+setInterval(() => {
   const now = new Date().getTime();
-  const distance = weddingDate - now;
+  const d = weddingDate - now;
 
-  if (distance < 0) {
-    clearInterval(countdownFunction);
-    document.getElementById("countdown").innerHTML = "🎉 It's Wedding Time!";
-    return;
-  }
+  if (d < 0) return;
 
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  const days = Math.floor(d / (1000*60*60*24));
+  const hours = Math.floor((d % (1000*60*60*24))/(1000*60*60));
+  const minutes = Math.floor((d % (1000*60*60))/(1000*60));
+  const seconds = Math.floor((d % (1000*60))/1000);
 
   document.getElementById("countdown").innerHTML =
-    days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+    days+"d "+hours+"h "+minutes+"m "+seconds+"s";
 }, 1000);
+
+// 🌸 PETALS
+function createPetals() {
+  const container = document.getElementById("petals");
+
+  setInterval(() => {
+    const petal = document.createElement("div");
+    petal.classList.add("petal");
+
+    petal.style.left = Math.random() * 100 + "vw";
+    petal.style.animationDuration = (3 + Math.random() * 5) + "s";
+
+    container.appendChild(petal);
+
+    setTimeout(() => petal.remove(), 8000);
+  }, 300);
+}
 
 </script>
 
