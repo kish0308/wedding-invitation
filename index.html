@@ -9,51 +9,93 @@
 body {
   margin: 0;
   font-family: 'Georgia', serif;
-  background: linear-gradient(to bottom, #fdf6f0, #f7e7dc);
+  background: radial-gradient(circle at top, #fff8f3, #f7e7dc);
   text-align: center;
   color: #333;
   overflow-x: hidden;
+}
+
+/* 🌟 Soft glow background */
+body::before {
+  content: "";
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255,215,0,0.08), transparent);
+  z-index: -1;
 }
 
 /* 🌸 PETALS */
 .petal {
   position: fixed;
   top: -10px;
-  width: 10px;
-  height: 10px;
-  background: pink;
+  width: 8px;
+  height: 8px;
+  background: #ffc0cb;
   border-radius: 50%;
-  opacity: 0.7;
+  opacity: 0.6;
   animation: fall linear infinite;
 }
 
 @keyframes fall {
   to {
-    transform: translateY(100vh) rotate(360deg);
+    transform: translateY(100vh) translateX(40px) rotate(360deg);
   }
 }
 
-/* Overlay */
+/* 🎬 OVERLAY CINEMATIC */
 #musicOverlay {
   position: fixed;
   width: 100%;
   height: 100%;
-  background: #000000cc;
+  background: radial-gradient(circle, #000000ee, #000000);
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   z-index: 999;
+  animation: fadeIn 2s ease;
 }
 
-/* Content */
+#musicOverlay h2 {
+  font-size: 28px;
+  letter-spacing: 3px;
+  animation: zoomIn 2s ease;
+}
+
+@keyframes fadeIn {
+  from {opacity:0;}
+  to {opacity:1;}
+}
+
+@keyframes zoomIn {
+  from {transform: scale(0.8); opacity:0;}
+  to {transform: scale(1); opacity:1;}
+}
+
+/* 💍 CONTENT */
 .container {
   padding: 30px;
 }
 
+/* ✨ GOLD SHIMMER */
+.names {
+  font-size: 38px;
+  font-weight: bold;
+  background: linear-gradient(90deg, #d4af37, #fff5cc, #d4af37);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  to { background-position: 200% center; }
+}
+
 h1 { font-size: 42px; }
-.names { font-size: 34px; color: #b76e79; }
+
 .details { font-size: 18px; }
 
 #countdown {
@@ -61,49 +103,46 @@ h1 { font-size: 42px; }
   margin-top: 20px;
 }
 
-/* Fade animation */
+/* 🎞️ FADE ANIMATION */
 .fade {
   opacity: 0;
-  transform: translateY(30px);
-  transition: 1.5s ease;
+  transform: translateY(40px);
+  transition: all 2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .fade.show {
   opacity: 1;
   transform: translateY(0);
 }
 
-.delay-1 { transition-delay: 0.5s; }
-.delay-2 { transition-delay: 1s; }
-.delay-3 { transition-delay: 1.5s; }
-
-/* Gallery */
+/* 📸 GALLERY */
 .gallery img {
   width: 90%;
   max-width: 300px;
   margin: 10px;
   border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
-/* Buttons */
+/* 🎯 BUTTON */
 button, .btn {
-  padding: 12px 20px;
-  background: #b76e79;
+  padding: 14px 24px;
+  background: linear-gradient(45deg, #b76e79, #d4af37);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   margin-top: 10px;
-  display: inline-block;
   text-decoration: none;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
+
 </style>
 </head>
 
 <body>
 
-<!-- 🌸 PETALS CONTAINER -->
 <div id="petals"></div>
 
-<!-- 🎵 OVERLAY -->
+<!-- 🎬 INTRO -->
 <div id="musicOverlay">
   <h2>Welcome to Our Wedding</h2>
   <button onclick="startExperience()">Enter</button>
@@ -113,58 +152,69 @@ button, .btn {
 
 <h1 class="fade">You're Invited</h1>
 
-<div class="names fade delay-1">Kish & Glydel</div>
+<div class="names fade">Kish & Glydel</div>
 
-<div class="details fade delay-2">
+<div class="details fade">
 May 09, 2026<br>
 3:00 PM<br><br>
 Hila's Residence
 </div>
 
-<div id="countdown" class="fade delay-3"></div>
+<div id="countdown" class="fade"></div>
 
 <!-- 📍 MAP -->
-<div class="fade delay-3">
-  <h3>Location</h3>
-  <iframe 
-    src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d268.39342950434235!2d124.03760950743883!3d12.993418406871323!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTLCsDU5JzM2LjIiTiAxMjTCsDAyJzE2LjEiRQ!5e0!3m2!1sen!2sph!4v1776776870268!5m2!1sen!2sph" 
-    width="100%" height="250" style="border:0;" loading="lazy">
-  </iframe>
+<div class="fade">
+<h3>Location</h3>
+<iframe 
+src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d268.39342950434235!2d124.03760950743883!3d12.993418406871323!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTLCsDU5JzM2LjIiTiAxMjTCsDAyJzE2LjEiRQ!5e0!3m2!1sen!2sph!4v1776776870268!5m2!1sen!2sph"
+width="100%" height="250" style="border:0;" loading="lazy">
+</iframe>
 </div>
 
 <!-- 📩 RSVP -->
-<div class="fade delay-3">
-  <h3>RSVP</h3>
-  <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeDr5oDuW-zchdjyluh25x_yBvxEZwGTUcqQTq1S87HJQ5WyA/viewform?usp=header" target="_blank">
-    Confirm Attendance
-  </a>
+<div class="fade">
+<h3>RSVP</h3>
+<a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeDr5oDuW-zchdjyluh25x_yBvxEZwGTUcqQTq1S87HJQ5WyA/viewform" target="_blank">
+Confirm Attendance
+</a>
 </div>
 
 <!-- 📸 GALLERY -->
-<div class="gallery fade delay-3">
-  <h3>Our Moments</h3>
-  <img src="photo1.jpg">
-  <img src="photo2.jpg">
-  <img src="photo3.jpg">
+<div class="gallery fade">
+<h3>Our Moments</h3>
+<img src="photo1.jpg">
+<img src="photo2.jpg">
+<img src="photo3.jpg">
 </div>
 
 </div>
 
-<!-- 🎵 MUSIC -->
 <audio id="bgMusic" loop>
-  <source src="music.mp3" type="audio/mpeg">
+<source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-// 🎬 START
+// 🎬 CINEMATIC START
 function startExperience() {
-  document.getElementById("bgMusic").play();
-  document.getElementById("musicOverlay").style.display = "none";
+  const overlay = document.getElementById("musicOverlay");
+  const music = document.getElementById("bgMusic");
 
-  document.querySelectorAll(".fade").forEach(el => {
-    el.classList.add("show");
-  });
+  music.play();
+
+  overlay.style.opacity = "0";
+  overlay.style.transition = "1.5s";
+
+  setTimeout(() => {
+    overlay.style.display = "none";
+
+    // stagger animation
+    const elements = document.querySelectorAll(".fade");
+    elements.forEach((el, i) => {
+      setTimeout(() => el.classList.add("show"), i * 400);
+    });
+
+  }, 1500);
 
   createPetals();
 }
@@ -196,12 +246,11 @@ function createPetals() {
     petal.classList.add("petal");
 
     petal.style.left = Math.random() * 100 + "vw";
-    petal.style.animationDuration = (3 + Math.random() * 5) + "s";
+    petal.style.animationDuration = (5 + Math.random() * 5) + "s";
 
     container.appendChild(petal);
-
-    setTimeout(() => petal.remove(), 8000);
-  }, 300);
+    setTimeout(() => petal.remove(), 10000);
+  }, 400);
 }
 
 </script>
