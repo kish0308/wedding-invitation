@@ -14,34 +14,7 @@ body {
   color: #333;
 }
 
-.container {
-  padding: 30px;
-}
-
-h1 {
-  font-size: 40px;
-  margin-top: 40px;
-}
-
-.names {
-  font-size: 32px;
-  margin: 20px 0;
-  color: #b76e79;
-}
-
-.details {
-  font-size: 18px;
-  margin: 20px 0;
-}
-
-/* Countdown */
-#countdown {
-  font-size: 24px;
-  margin-top: 20px;
-  color: #444;
-}
-
-/* Music overlay */
+/* Overlay */
 #musicOverlay {
   position: fixed;
   top: 0;
@@ -58,81 +31,142 @@ h1 {
 }
 
 button {
-  padding: 12px 20px;
+  padding: 14px 24px;
   font-size: 16px;
   background: #b76e79;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
+/* Content */
+.container {
+  padding: 30px;
+}
+
+h1 {
+  font-size: 42px;
+  margin-top: 40px;
+}
+
+.names {
+  font-size: 34px;
+  margin: 20px 0;
+  color: #b76e79;
+}
+
+.details {
+  font-size: 18px;
+  margin: 20px 0;
+}
+
+/* Countdown */
+#countdown {
+  font-size: 26px;
+  margin-top: 25px;
+  color: #444;
+}
+
+/* Footer */
 .footer {
   margin-top: 40px;
   font-size: 14px;
   color: #777;
 }
-</style>
 
+/* ✨ Animation */
+.fade {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.fade.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Delays */
+.delay-1 { transition-delay: 0.5s; }
+.delay-2 { transition-delay: 1s; }
+.delay-3 { transition-delay: 1.5s; }
+.delay-4 { transition-delay: 2s; }
+
+</style>
 </head>
+
 <body>
 
-<!-- Music Overlay -->
+<!-- 🎵 MUSIC OVERLAY -->
 <div id="musicOverlay">
-  <h2>Tap to Open Invitation</h2>
-  <button onclick="startMusic()">Enter</button>
+  <h2>Welcome to Our Wedding</h2>
+  <button onclick="startExperience()">Enter Invitation</button>
 </div>
 
+<!-- 💍 MAIN CONTENT -->
 <div class="container">
-  <h1>You're Invited</h1>
 
-  <div class="names">
+  <h1 class="fade">You're Invited</h1>
+
+  <div class="names fade delay-1">
     Kish & Glydel
   </div>
 
-  <div class="details">
+  <div class="details fade delay-2">
     Together with their families,<br><br>
     invite you to celebrate their wedding<br><br>
 
     <strong>May 09, 2026</strong><br>
     3:00 PM<br><br>
 
-    Hila's residence <br>
-    Wedding & Reception
+    Hila's Residence
   </div>
 
-  <!-- Countdown -->
-  <div id="countdown"></div>
+  <div id="countdown" class="fade delay-3"></div>
 
-  <div class="footer">
+  <div class="footer fade delay-4">
     We can’t wait to celebrate with you 💕
   </div>
+
 </div>
 
-<!-- Music -->
+<!-- 🎵 BACKGROUND MUSIC -->
 <audio id="bgMusic" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-// 🎵 MUSIC CONTROL (mobile-safe)
-function startMusic() {
+
+// 🎬 START EXPERIENCE
+function startExperience() {
   const music = document.getElementById("bgMusic");
   music.play();
+
   document.getElementById("musicOverlay").style.display = "none";
+
+  startAnimations();
 }
 
-// Try autoplay (will fail silently on mobile)
+// ✨ ANIMATION TRIGGER
+function startAnimations() {
+  document.querySelectorAll(".fade").forEach(el => {
+    el.classList.add("show");
+  });
+}
+
+// 🎵 AUTOPLAY TRY
 window.addEventListener("load", () => {
   const music = document.getElementById("bgMusic");
+
   music.play().then(() => {
     document.getElementById("musicOverlay").style.display = "none";
+    startAnimations();
   }).catch(() => {
-    // Autoplay blocked → overlay stays
+    // mobile fallback
   });
 });
 
-
-// ⏳ COUNTDOWN TIMER
+// ⏳ COUNTDOWN
 const weddingDate = new Date("May 09, 2026 15:00:00").getTime();
 
 const countdownFunction = setInterval(() => {
@@ -153,6 +187,7 @@ const countdownFunction = setInterval(() => {
   document.getElementById("countdown").innerHTML =
     days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
 }, 1000);
+
 </script>
 
 </body>
