@@ -14,7 +14,7 @@ body {
   color: white;
 }
 
-/* 🌌 background */
+/* 🌌 BACKGROUND */
 .bg {
   position: fixed;
   width: 100%;
@@ -23,7 +23,7 @@ body {
   z-index: -2;
 }
 
-/* 🎬 scenes */
+/* 🎬 SCENES */
 .scene {
   position: fixed;
   width: 100%;
@@ -47,7 +47,7 @@ body {
   pointer-events: all;
 }
 
-/* 🎥 video */
+/* 🎥 VIDEO */
 #introVideo {
   position: absolute;
   width: 100%;
@@ -55,7 +55,7 @@ body {
   object-fit: cover;
 }
 
-/* 💍 text */
+/* 💍 TEXT */
 .title {
   font-size: 42px;
   background: linear-gradient(90deg,#d4af37,#fff5cc,#d4af37);
@@ -63,27 +63,7 @@ body {
   color: transparent;
 }
 
-.subtitle {
-  font-size: 14px;
-  opacity: 0.8;
-}
-
-/* 📸 image */
-.story-img {
-  width: 85%;
-  max-width: 320px;
-  border-radius: 15px;
-  margin-top: 15px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-  animation: fadeIn 2s ease;
-}
-
-@keyframes fadeIn {
-  from {opacity:0; transform: scale(1.05);}
-  to {opacity:1; transform: scale(1);}
-}
-
-/* 🪶 card */
+/* 🪶 CARD */
 .card {
   max-width: 320px;
   padding: 20px;
@@ -92,7 +72,15 @@ body {
   backdrop-filter: blur(10px);
 }
 
-/* 🎬 button */
+/* 📸 IMAGE */
+.story-img {
+  width: 85%;
+  max-width: 320px;
+  border-radius: 15px;
+  margin-top: 15px;
+}
+
+/* 🎬 BUTTON */
 .btn {
   margin-top: 15px;
   padding: 12px 20px;
@@ -100,6 +88,11 @@ body {
   background: linear-gradient(45deg,#b76e79,#d4af37);
   color: white;
   border-radius: 10px;
+}
+
+/* 📍 MAP */
+iframe {
+  border-radius: 12px;
 }
 </style>
 </head>
@@ -117,8 +110,7 @@ body {
 
   <div style="position:absolute;">
     <div class="title">Kish & Glydel</div>
-    <div class="subtitle">Our Love Story Begins</div>
-    <button class="btn" onclick="nextScene()">Start Story</button>
+    <button class="btn" onclick="startExperience()">Start Story</button>
   </div>
 </div>
 
@@ -127,7 +119,6 @@ body {
   <div class="card">
     <h2>💌 Invitation</h2>
     <img class="story-img" src="photo1.jpg">
-    <p>A journey written in love.</p>
     <button class="btn" onclick="nextScene()">Continue</button>
   </div>
 </div>
@@ -137,7 +128,6 @@ body {
   <div class="card">
     <h2>💍 Our Story</h2>
     <img class="story-img" src="photo2.jpg">
-    <p>From strangers → soulmates</p>
     <button class="btn" onclick="nextScene()">Continue</button>
   </div>
 </div>
@@ -156,13 +146,13 @@ body {
 <div class="scene" id="scene5">
   <div class="card">
     <h2>📍 Hila's Residence</h2>
-<iframe
-  src="https://www.google.com/maps?q=12.993418,124.037609&z=17&output=embed"
-  width="100%"
-  height="200"
-  style="border:0;"
-  loading="lazy">
-</iframe>
+
+    <iframe
+      src="https://www.google.com/maps?q=12.993418,124.037609&z=17&output=embed"
+      width="100%"
+      height="200">
+    </iframe>
+
     <button class="btn" onclick="nextScene()">RSVP</button>
   </div>
 </div>
@@ -171,9 +161,11 @@ body {
 <div class="scene" id="scene6">
   <div class="card">
     <h2>📩 RSVP</h2>
+
     <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeDr5oDuW-zchdjyluh25x_yBvxEZwGTUcqQTq1S87HJQ5WyA/viewform" target="_blank">
       Confirm Attendance
     </a>
+
     <button class="btn" onclick="nextScene()">Finish</button>
   </div>
 </div>
@@ -186,11 +178,17 @@ body {
   </div>
 </div>
 
+<!-- 🎵 MUSIC -->
+<audio id="bgMusic" loop preload="auto">
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
 <script>
 
 let current = 1;
 const total = 7;
 
+// 🎬 SCENE CONTROL
 function showScene(n){
   document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
   document.getElementById("scene"+n).classList.add("active");
@@ -203,13 +201,27 @@ function nextScene(){
   }
 }
 
-/* 🎥 auto video → story */
+// 🎵 START MUSIC (MOBILE SAFE)
+function startMusic(){
+  const music = document.getElementById("bgMusic");
+  music.volume = 0.6;
+  music.play().catch(()=>{});
+}
+
+// 🎬 START EXPERIENCE
+function startExperience(){
+  startMusic();
+  nextScene();
+}
+
+// 🎥 VIDEO AUTO FLOW
 window.addEventListener("load",()=>{
-  const v = document.getElementById("introVideo");
+  const video = document.getElementById("introVideo");
 
-  v.play().catch(()=>{});
+  video.play().catch(()=>{});
 
-  v.onended = () => {
+  video.onended = () => {
+    startMusic();
     nextScene();
   };
 });
