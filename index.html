@@ -14,31 +14,16 @@ body {
   color: white;
 }
 
-/* 🌌 CINEMATIC BACKGROUND */
+/* 🌌 background */
 .bg {
   position: fixed;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at center, #1a1a1a, #000);
+  background: radial-gradient(circle,#111,#000);
   z-index: -2;
 }
 
-/* ✨ PARTICLES */
-.particle {
-  position: fixed;
-  width: 4px;
-  height: 4px;
-  background: rgba(255,255,255,0.4);
-  border-radius: 50%;
-  animation: floatUp linear infinite;
-}
-
-@keyframes floatUp {
-  from { transform: translateY(100vh); opacity: 0; }
-  to { transform: translateY(-10vh); opacity: 1; }
-}
-
-/* 🎬 SCENES */
+/* 🎬 scenes */
 .scene {
   position: fixed;
   width: 100%;
@@ -51,48 +36,63 @@ body {
   align-items: center;
   flex-direction: column;
   text-align: center;
-  transition: all 1.2s ease;
+  transition: all 1s ease;
   pointer-events: none;
 }
 
 .scene.active {
   opacity: 1;
   transform: scale(1);
-  filter: blur(0px);
+  filter: blur(0);
   pointer-events: all;
 }
 
-/* 💍 TEXT STYLE */
+/* 🎥 video */
+#introVideo {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 💍 text */
 .title {
   font-size: 42px;
   background: linear-gradient(90deg,#d4af37,#fff5cc,#d4af37);
   -webkit-background-clip: text;
   color: transparent;
-  animation: shimmer 3s linear infinite;
-}
-
-@keyframes shimmer {
-  to { background-position: 200% center; }
 }
 
 .subtitle {
   font-size: 14px;
   opacity: 0.8;
-  margin-top: 10px;
 }
 
-/* 🪶 CARD */
+/* 📸 image */
+.story-img {
+  width: 85%;
+  max-width: 320px;
+  border-radius: 15px;
+  margin-top: 15px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  animation: fadeIn 2s ease;
+}
+
+@keyframes fadeIn {
+  from {opacity:0; transform: scale(1.05);}
+  to {opacity:1; transform: scale(1);}
+}
+
+/* 🪶 card */
 .card {
   max-width: 320px;
-  padding: 25px;
+  padding: 20px;
   background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,215,0,0.2);
   border-radius: 16px;
-  backdrop-filter: blur(12px);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
 }
 
-/* 🎬 BUTTON */
+/* 🎬 button */
 .btn {
   margin-top: 15px;
   padding: 12px 20px;
@@ -101,25 +101,6 @@ body {
   color: white;
   border-radius: 10px;
 }
-
-/* 🌊 NAV CONTROLS */
-.nav {
-  position: fixed;
-  bottom: 20px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  z-index: 1000;
-}
-
-.nav button {
-  padding: 10px 15px;
-  border: 1px solid white;
-  background: transparent;
-  color: white;
-  border-radius: 8px;
-}
 </style>
 </head>
 
@@ -127,22 +108,16 @@ body {
 
 <div class="bg"></div>
 
-<!-- 🌌 PARTICLES -->
-<script>
-for(let i=0;i<25;i++){
-  let p=document.createElement("div");
-  p.className="particle";
-  p.style.left=Math.random()*100+"vw";
-  p.style.animationDuration=(5+Math.random()*10)+"s";
-  document.body.appendChild(p);
-}
-</script>
-
-<!-- 🎬 SCENE 1 -->
+<!-- 🎥 SCENE 1: VIDEO INTRO -->
 <div class="scene active" id="scene1">
-  <div>
+
+  <video id="introVideo" autoplay muted playsinline>
+    <source src="prenup.mp4" type="video/mp4">
+  </video>
+
+  <div style="position:absolute;">
     <div class="title">Kish & Glydel</div>
-    <div class="subtitle">Our Wedding Story Begins</div>
+    <div class="subtitle">Our Love Story Begins</div>
     <button class="btn" onclick="nextScene()">Start Story</button>
   </div>
 </div>
@@ -151,16 +126,18 @@ for(let i=0;i<25;i++){
 <div class="scene" id="scene2">
   <div class="card">
     <h2>💌 Invitation</h2>
-    <p>A moment of love, captured forever.</p>
-    <button class="btn" onclick="nextScene()">Open</button>
+    <img class="story-img" src="photo1.jpg">
+    <p>A journey written in love.</p>
+    <button class="btn" onclick="nextScene()">Continue</button>
   </div>
 </div>
 
 <!-- 💍 SCENE 3 -->
 <div class="scene" id="scene3">
   <div class="card">
-    <h2>💍 Our Journey</h2>
-    <p>From chance meeting → forever love.</p>
+    <h2>💍 Our Story</h2>
+    <img class="story-img" src="photo2.jpg">
+    <p>From strangers → soulmates</p>
     <button class="btn" onclick="nextScene()">Continue</button>
   </div>
 </div>
@@ -169,6 +146,7 @@ for(let i=0;i<25;i++){
 <div class="scene" id="scene4">
   <div class="card">
     <h2>📅 Wedding Day</h2>
+    <img class="story-img" src="photo3.jpg">
     <p>May 09, 2026<br>3:00 PM</p>
     <button class="btn" onclick="nextScene()">Location</button>
   </div>
@@ -178,7 +156,10 @@ for(let i=0;i<25;i++){
 <div class="scene" id="scene5">
   <div class="card">
     <h2>📍 Hila's Residence</h2>
-    <p>We are waiting for you.</p>
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d268.39342950434235!2d124.03760950743883!3d12.993418406871323"
+      width="100%" height="200" style="border:0;">
+    </iframe>
     <button class="btn" onclick="nextScene()">RSVP</button>
   </div>
 </div>
@@ -190,7 +171,6 @@ for(let i=0;i<25;i++){
     <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeDr5oDuW-zchdjyluh25x_yBvxEZwGTUcqQTq1S87HJQ5WyA/viewform" target="_blank">
       Confirm Attendance
     </a>
-    <br><br>
     <button class="btn" onclick="nextScene()">Finish</button>
   </div>
 </div>
@@ -203,18 +183,11 @@ for(let i=0;i<25;i++){
   </div>
 </div>
 
-<!-- NAVIGATION -->
-<div class="nav">
-  <button onclick="prevScene()">⬅ Back</button>
-  <button onclick="nextScene()">Next ➡</button>
-</div>
-
 <script>
 
 let current = 1;
 const total = 7;
 
-// 🎬 SCENE CONTROL
 function showScene(n){
   document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
   document.getElementById("scene"+n).classList.add("active");
@@ -227,24 +200,15 @@ function nextScene(){
   }
 }
 
-function prevScene(){
-  if(current > 1){
-    current--;
-    showScene(current);
-  }
-}
+/* 🎥 auto video → story */
+window.addEventListener("load",()=>{
+  const v = document.getElementById("introVideo");
 
-/* 📱 SWIPE SUPPORT */
-let startX = 0;
+  v.play().catch(()=>{});
 
-document.addEventListener("touchstart", e=>{
-  startX = e.touches[0].clientX;
-});
-
-document.addEventListener("touchend", e=>{
-  let endX = e.changedTouches[0].clientX;
-  if(startX - endX > 50) nextScene();
-  if(endX - startX > 50) prevScene();
+  v.onended = () => {
+    nextScene();
+  };
 });
 
 </script>
