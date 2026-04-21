@@ -133,19 +133,15 @@ video {
   padding: 10px;
   border-radius: 10px;
 }
-
-/* 🎮 CHOICES */
-.choice-box button {
-  display: block;
-  width: 100%;
-  margin-top: 10px;
-}
 </style>
 </head>
 
 <body>
 
 <div class="bg"></div>
+
+<!-- 🎵 EPISODE 1 MUSIC -->
+<audio id="music" preload="auto"></audio>
 
 <!-- 🌌 PARTICLES -->
 <script>
@@ -158,8 +154,9 @@ for(let i=0;i<25;i++){
 }
 </script>
 
-<!-- 🎥 SCENE 1 (INTRO + CHOICES) -->
+<!-- 🎥 INTRO -->
 <div class="scene active" id="sceneintro">
+
   <video autoplay muted playsinline>
     <source src="prenup.mp4" type="video/mp4">
   </video>
@@ -182,12 +179,11 @@ for(let i=0;i<25;i++){
   <div class="card">
     <h2>Episode 1: The Beginning</h2>
     <img class="story-img" src="photo1.jpg">
+
     <div class="narration">Two souls crossed paths unexpectedly…</div>
 
-    <div class="choice-box">
-      <button class="btn" onclick="go('3')">💞 Continue Story</button>
-      <button class="btn" onclick="go('3a')">🎨 View Attire First</button>
-    </div>
+    <button class="btn" onclick="go('3')">Continue</button>
+    <button class="btn" onclick="go('3a')">View Attire</button>
   </div>
 </div>
 
@@ -197,10 +193,8 @@ for(let i=0;i<25;i++){
     <h2>Episode 2: The Journey</h2>
     <img class="story-img" src="photo2.jpg">
 
-    <div class="choice-box">
-      <button class="btn" onclick="go('4')">📅 Wedding Day</button>
-      <button class="btn" onclick="go('5')">📍 Venue</button>
-    </div>
+    <button class="btn" onclick="go('4')">Wedding Day</button>
+    <button class="btn" onclick="go('5')">Venue</button>
   </div>
 </div>
 
@@ -211,10 +205,9 @@ for(let i=0;i<25;i++){
     <img class="story-img" src="attire.jpg">
 
     <div class="narration">
-      Gold • Champagne • Nude • Ivory • Blush Pink
-      <br><br>
+      Gold • Champagne • Ivory • Blush Pink<br><br>
       Gentlemen: Beige suits<br>
-      Ladies: Soft pastel gowns
+      Ladies: Soft elegant gowns
     </div>
 
     <button class="btn" onclick="go('4')">Continue</button>
@@ -225,11 +218,10 @@ for(let i=0;i<25;i++){
 <div class="scene" id="scene4">
   <div class="card">
     <h2>Forever Begins</h2>
-
     <img class="story-img" src="photo3.jpg">
 
     <div class="narration">
-      May 09, 2026 — A day written in forever.
+      May 09, 2026 — A moment forever remembered.
     </div>
 
     <div id="countdown">Loading...</div>
@@ -269,7 +261,7 @@ for(let i=0;i<25;i++){
   <div class="card">
     <h2>Final Chapter</h2>
     <div class="narration">
-      Thank you for choosing our story.<br><br>
+      Thank you for being part of our story.<br><br>
       — Kish & Glydel
     </div>
   </div>
@@ -279,18 +271,38 @@ for(let i=0;i<25;i++){
 
 let path = "";
 
-// 🎮 NAVIGATION ENGINE
+// 🎬 NAVIGATION
 function go(scene){
   document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
   document.getElementById("scene"+scene).classList.add("active");
 }
 
-// 🎮 CHOICES START
+// 🎮 CHOICES + 🎵 MUSIC START
 function choosePath(type){
   path = type;
 
+  playEpisode1Music();
+
   if(type === "fast") go(4);
   else go(2);
+}
+
+// 🎵 EPISODE 1 MUSIC
+const music = document.getElementById("music");
+
+function playEpisode1Music(){
+  music.src = "prenup.mp3"; // <-- your uploaded music file
+  music.volume = 0;
+
+  music.play().catch(()=>{});
+
+  let v = 0;
+  const fade = setInterval(()=>{
+    if(v < 0.6){
+      v += 0.05;
+      music.volume = v;
+    } else clearInterval(fade);
+  },100);
 }
 
 // ⏳ COUNTDOWN
@@ -301,7 +313,7 @@ setInterval(()=>{
   const diff = weddingDate - now;
 
   if(diff < 0){
-    document.getElementById("countdown").innerHTML = "💍 It's Wedding Day!";
+    document.getElementById("countdown").innerHTML = "💍 Wedding Day";
     return;
   }
 
