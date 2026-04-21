@@ -10,8 +10,32 @@ body {
   margin: 0;
   font-family: 'Georgia', serif;
   background: black;
-  color: white;
   overflow: hidden;
+  color: white;
+}
+
+/* 🌌 CINEMATIC BACKGROUND */
+.bg {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, #1a1a1a, #000);
+  z-index: -2;
+}
+
+/* ✨ PARTICLES */
+.particle {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 50%;
+  animation: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(100vh); opacity: 0; }
+  to { transform: translateY(-10vh); opacity: 1; }
 }
 
 /* 🎬 SCENES */
@@ -19,48 +43,58 @@ body {
   position: fixed;
   width: 100%;
   height: 100%;
-  display: none;
+  display: flex;
+  opacity: 0;
+  transform: scale(1.05);
+  filter: blur(10px);
   justify-content: center;
   align-items: center;
   flex-direction: column;
   text-align: center;
-  padding: 20px;
+  transition: all 1.2s ease;
+  pointer-events: none;
 }
 
 .scene.active {
-  display: flex;
-  animation: fadeIn 1.2s ease;
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0px);
+  pointer-events: all;
 }
 
-@keyframes fadeIn {
-  from {opacity:0; transform: scale(1.05);}
-  to {opacity:1; transform: scale(1);}
-}
-
-/* 🎥 VIDEO */
-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* 💍 TEXT */
+/* 💍 TEXT STYLE */
 .title {
-  font-size: 38px;
+  font-size: 42px;
   background: linear-gradient(90deg,#d4af37,#fff5cc,#d4af37);
   -webkit-background-clip: text;
   color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  to { background-position: 200% center; }
 }
 
 .subtitle {
-  font-size: 16px;
+  font-size: 14px;
   opacity: 0.8;
   margin-top: 10px;
 }
 
-/* 📜 BUTTON */
+/* 🪶 CARD */
+.card {
+  max-width: 320px;
+  padding: 25px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,215,0,0.2);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+
+/* 🎬 BUTTON */
 .btn {
-  margin-top: 20px;
+  margin-top: 15px;
   padding: 12px 20px;
   border: none;
   background: linear-gradient(45deg,#b76e79,#d4af37);
@@ -68,124 +102,149 @@ video {
   border-radius: 10px;
 }
 
-/* 🌸 BACKGROUND LAYER */
-.bg {
-  position: absolute;
+/* 🌊 NAV CONTROLS */
+.nav {
+  position: fixed;
+  bottom: 20px;
   width: 100%;
-  height: 100%;
-  background: radial-gradient(circle,#1a1a1a,#000);
-  z-index: -1;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  z-index: 1000;
 }
 
-/* STORY CARD */
-.card {
-  max-width: 300px;
-  padding: 20px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 15px;
-  backdrop-filter: blur(10px);
+.nav button {
+  padding: 10px 15px;
+  border: 1px solid white;
+  background: transparent;
+  color: white;
+  border-radius: 8px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🎬 SCENE 1: VIDEO INTRO -->
-<div class="scene active" id="scene1">
-  <video id="introVideo" autoplay muted playsinline>
-    <source src="prenup.mp4" type="video/mp4">
-  </video>
+<div class="bg"></div>
 
-  <div style="position:absolute;">
+<!-- 🌌 PARTICLES -->
+<script>
+for(let i=0;i<25;i++){
+  let p=document.createElement("div");
+  p.className="particle";
+  p.style.left=Math.random()*100+"vw";
+  p.style.animationDuration=(5+Math.random()*10)+"s";
+  document.body.appendChild(p);
+}
+</script>
+
+<!-- 🎬 SCENE 1 -->
+<div class="scene active" id="scene1">
+  <div>
     <div class="title">Kish & Glydel</div>
     <div class="subtitle">Our Wedding Story Begins</div>
     <button class="btn" onclick="nextScene()">Start Story</button>
   </div>
 </div>
 
-<!-- 💌 SCENE 2: ENVELOPE -->
+<!-- 💌 SCENE 2 -->
 <div class="scene" id="scene2">
   <div class="card">
-    <h2>💌 You Are Invited</h2>
-    <p>A special day is waiting for you</p>
-    <button class="btn" onclick="nextScene()">Open Story</button>
+    <h2>💌 Invitation</h2>
+    <p>A moment of love, captured forever.</p>
+    <button class="btn" onclick="nextScene()">Open</button>
   </div>
 </div>
 
-<!-- 💍 SCENE 3: LOVE STORY -->
+<!-- 💍 SCENE 3 -->
 <div class="scene" id="scene3">
   <div class="card">
-    <h2>💍 Our Story</h2>
-    <p>
-      From strangers → friends → lovers<br><br>
-      Every moment led us here.
-    </p>
+    <h2>💍 Our Journey</h2>
+    <p>From chance meeting → forever love.</p>
     <button class="btn" onclick="nextScene()">Continue</button>
   </div>
 </div>
 
-<!-- 📅 SCENE 4: DETAILS -->
+<!-- 📅 SCENE 4 -->
 <div class="scene" id="scene4">
   <div class="card">
-    <h2>📅 Wedding Details</h2>
-    <p>
-      May 09, 2026<br>
-      3:00 PM
-    </p>
+    <h2>📅 Wedding Day</h2>
+    <p>May 09, 2026<br>3:00 PM</p>
     <button class="btn" onclick="nextScene()">Location</button>
   </div>
 </div>
 
-<!-- 📍 SCENE 5: LOCATION -->
+<!-- 📍 SCENE 5 -->
 <div class="scene" id="scene5">
   <div class="card">
     <h2>📍 Hila's Residence</h2>
-    <p>We can’t wait to see you there</p>
+    <p>We are waiting for you.</p>
     <button class="btn" onclick="nextScene()">RSVP</button>
   </div>
 </div>
 
-<!-- 📩 SCENE 6: RSVP -->
+<!-- 📩 SCENE 6 -->
 <div class="scene" id="scene6">
   <div class="card">
     <h2>📩 RSVP</h2>
-    <p>Please confirm your attendance</p>
     <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeDr5oDuW-zchdjyluh25x_yBvxEZwGTUcqQTq1S87HJQ5WyA/viewform" target="_blank">
-      Confirm Now
+      Confirm Attendance
     </a>
     <br><br>
-    <button class="btn" onclick="nextScene()">Final Scene</button>
+    <button class="btn" onclick="nextScene()">Finish</button>
   </div>
 </div>
 
-<!-- 🎉 SCENE 7: END -->
+<!-- 🎉 SCENE 7 -->
 <div class="scene" id="scene7">
   <div class="card">
     <h2>✨ Thank You</h2>
-    <p>
-      We can’t wait to celebrate with you<br><br>
-      💍 Kish & Glydel
-    </p>
+    <p>Kish & Glydel<br>Forever Begins Here</p>
   </div>
+</div>
+
+<!-- NAVIGATION -->
+<div class="nav">
+  <button onclick="prevScene()">⬅ Back</button>
+  <button onclick="nextScene()">Next ➡</button>
 </div>
 
 <script>
 
 let current = 1;
+const total = 7;
+
+// 🎬 SCENE CONTROL
+function showScene(n){
+  document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
+  document.getElementById("scene"+n).classList.add("active");
+}
 
 function nextScene(){
-  document.getElementById("scene"+current).classList.remove("active");
-  current++;
-  const next = document.getElementById("scene"+current);
-  if(next){
-    next.classList.add("active");
+  if(current < total){
+    current++;
+    showScene(current);
   }
 }
 
-// autoplay video safety
-window.addEventListener("load",()=>{
-  const v = document.getElementById("introVideo");
-  v.play().catch(()=>{});
+function prevScene(){
+  if(current > 1){
+    current--;
+    showScene(current);
+  }
+}
+
+/* 📱 SWIPE SUPPORT */
+let startX = 0;
+
+document.addEventListener("touchstart", e=>{
+  startX = e.touches[0].clientX;
+});
+
+document.addEventListener("touchend", e=>{
+  let endX = e.changedTouches[0].clientX;
+  if(startX - endX > 50) nextScene();
+  if(endX - startX > 50) prevScene();
 });
 
 </script>
