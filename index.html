@@ -33,38 +33,62 @@ body::before {
   z-index: 3000;
 }
 
-#videoIntro video {
+#introVideo {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
+/* 🎬 OVERLAY */
 .videoOverlay {
   position: absolute;
   width: 100%;
   height: 100%;
-  color: white;
+  background: rgba(0,0,0,0.35);
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgba(0,0,0,0.35);
-}
-
-.videoOverlay h1 {
-  font-size: 34px;
-  letter-spacing: 3px;
-}
-
-.videoOverlay button {
-  padding: 12px 20px;
-  margin-top: 10px;
-  background: rgba(0,0,0,0.6);
-  border: 1px solid white;
+  flex-direction: column;
   color: white;
 }
 
-/* 📜 LUXURY ENVELOPE */
+/* 💍 TITLE */
+.videoTitle {
+  text-align: center;
+  animation: titleFade 4s ease forwards;
+}
+
+.titleMain {
+  font-size: 42px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #d4af37, #fff5cc, #d4af37);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+.titleSub {
+  font-size: 16px;
+  margin-top: 5px;
+  letter-spacing: 3px;
+  opacity: 0.8;
+}
+
+/* ✨ animations */
+@keyframes titleFade {
+  0% { opacity: 0; transform: scale(0.8); }
+  30% { opacity: 1; transform: scale(1); }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes shimmer {
+  to { background-position: 200% center; }
+}
+
+/* 📜 ENVELOPE */
 #envelope {
   position: fixed;
   width: 100%;
@@ -103,12 +127,6 @@ body::before {
   width: 280px;
   text-align: center;
   box-shadow: 0 20px 60px rgba(0,0,0,0.7);
-  animation: fadeUp 1.5s ease;
-}
-
-@keyframes fadeUp {
-  from { transform: translateY(40px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
 }
 
 /* seal */
@@ -126,7 +144,6 @@ body::before {
 .envelope-box h2 {
   color: #d4af37;
   margin: 5px 0;
-  letter-spacing: 2px;
 }
 
 .env-names {
@@ -137,7 +154,7 @@ body::before {
 .env-sub {
   font-size: 14px;
   color: #ccc;
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 .env-btn {
@@ -193,6 +210,7 @@ h1 { font-size: 42px; }
   transform: translateY(0);
 }
 
+/* gallery */
 .gallery img {
   width: 90%;
   max-width: 300px;
@@ -214,13 +232,22 @@ h1 { font-size: 42px; }
 
 <!-- 🎥 VIDEO INTRO -->
 <div id="videoIntro">
+
   <video id="introVideo" playsinline muted>
     <source src="prenup.mp4" type="video/mp4">
   </video>
+
   <div class="videoOverlay">
-    <h1>Kish & Glydel</h1>
-    <button onclick="skipVideo()">Skip Intro</button>
+    <div class="videoTitle">
+      <div class="titleMain">Kish & Glydel</div>
+      <div class="titleSub">Wedding Invitation</div>
+    </div>
+
+    <button onclick="skipVideo()" style="margin-top:20px;">
+      Skip Intro
+    </button>
   </div>
+
 </div>
 
 <!-- 📜 ENVELOPE -->
@@ -242,7 +269,7 @@ h1 { font-size: 42px; }
 
 <div id="petals"></div>
 
-<!-- MAIN CONTENT -->
+<!-- MAIN -->
 <div class="container">
 
 <h1 class="fade">You're Invited</h1>
@@ -290,7 +317,9 @@ RSVP
 // 🎬 VIDEO FLOW
 window.addEventListener("load", () => {
   const video = document.getElementById("introVideo");
+
   video.play().catch(()=>{});
+
   video.onended = showEnvelope;
 });
 
