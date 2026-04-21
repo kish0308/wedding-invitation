@@ -3,24 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kish & Glydel Wedding Story</title>
+<title>Kish & Glydel | A Love Documentary</title>
 
 <style>
 body {
   margin: 0;
-  font-family: 'Georgia', serif;
   background: black;
-  overflow: hidden;
   color: white;
+  font-family: 'Georgia', serif;
+  overflow: hidden;
 }
 
-/* 🌌 BACKGROUND */
+/* 🌌 CINEMATIC BACKGROUND */
 .bg {
   position: fixed;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle,#111,#000);
-  z-index: -2;
+  background: radial-gradient(circle at center, #0d0d0d, #000);
+  z-index: -3;
 }
 
 /* 🎬 SCENES */
@@ -28,15 +28,15 @@ body {
   position: fixed;
   width: 100%;
   height: 100%;
-  display: flex;
   opacity: 0;
-  transform: scale(1.05);
-  filter: blur(10px);
+  transform: scale(1.08);
+  filter: blur(12px);
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   text-align: center;
-  transition: all 1s ease;
+  transition: all 1.4s ease;
   pointer-events: none;
 }
 
@@ -48,36 +48,53 @@ body {
 }
 
 /* 🎥 VIDEO */
-#introVideo {
+video {
   position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* 💍 TEXT */
+/* 🎞️ DOCUMENTARY TITLE */
 .title {
-  font-size: 42px;
+  font-size: 44px;
   background: linear-gradient(90deg,#d4af37,#fff5cc,#d4af37);
   -webkit-background-clip: text;
   color: transparent;
+  animation: glow 3s infinite;
+}
+
+@keyframes glow {
+  0%,100% { filter: brightness(1); }
+  50% { filter: brightness(1.4); }
+}
+
+/* 🎙️ NARRATION TEXT */
+.narration {
+  max-width: 320px;
+  font-size: 16px;
+  line-height: 1.6;
+  opacity: 0.85;
+  margin-top: 15px;
+}
+
+/* 📸 IMAGE STYLE */
+.story-img {
+  width: 85%;
+  max-width: 320px;
+  border-radius: 16px;
+  margin-top: 15px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.7);
 }
 
 /* 🪶 CARD */
 .card {
-  max-width: 320px;
-  padding: 20px;
+  max-width: 340px;
+  padding: 22px;
   background: rgba(255,255,255,0.06);
-  border-radius: 16px;
-  backdrop-filter: blur(10px);
-}
-
-/* 📸 IMAGE */
-.story-img {
-  width: 85%;
-  max-width: 320px;
-  border-radius: 15px;
-  margin-top: 15px;
+  border-radius: 18px;
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,215,0,0.15);
 }
 
 /* 🎬 BUTTON */
@@ -85,14 +102,29 @@ body {
   margin-top: 15px;
   padding: 12px 20px;
   border: none;
+  border-radius: 10px;
   background: linear-gradient(45deg,#b76e79,#d4af37);
   color: white;
-  border-radius: 10px;
+}
+
+/* 🌌 PARTICLES */
+.particle {
+  position: fixed;
+  width: 3px;
+  height: 3px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 50%;
+  animation: float 10s linear infinite;
+}
+
+@keyframes float {
+  from { transform: translateY(100vh); }
+  to { transform: translateY(-10vh); }
 }
 
 /* 📍 MAP */
 iframe {
-  border-radius: 12px;
+  border-radius: 14px;
 }
 </style>
 </head>
@@ -101,7 +133,18 @@ iframe {
 
 <div class="bg"></div>
 
-<!-- 🎥 SCENE 1: VIDEO INTRO -->
+<!-- 🌌 PARTICLES -->
+<script>
+for(let i=0;i<30;i++){
+  let p=document.createElement("div");
+  p.className="particle";
+  p.style.left=Math.random()*100+"vw";
+  p.style.animationDuration=(6+Math.random()*8)+"s";
+  document.body.appendChild(p);
+}
+</script>
+
+<!-- 🎥 EPISODE 1: INTRO FILM -->
 <div class="scene active" id="scene1">
 
   <video id="introVideo" autoplay muted playsinline>
@@ -110,71 +153,94 @@ iframe {
 
   <div style="position:absolute;">
     <div class="title">Kish & Glydel</div>
-    <button class="btn" onclick="startExperience()">Start Story</button>
+    <div class="narration">
+      A love story that began quietly…<br>
+      and grew into forever.
+    </div>
+    <button class="btn" onclick="nextScene()">Begin Documentary</button>
   </div>
 </div>
 
-<!-- 💌 SCENE 2 -->
+<!-- 🎬 EPISODE 2 -->
 <div class="scene" id="scene2">
   <div class="card">
-    <h2>💌 Invitation</h2>
+    <h2>Episode 1: The Beginning</h2>
     <img class="story-img" src="photo1.jpg">
+    <div class="narration">
+      Two paths crossed unexpectedly… and everything changed.
+    </div>
     <button class="btn" onclick="nextScene()">Continue</button>
   </div>
 </div>
 
-<!-- 💍 SCENE 3 -->
+<!-- 🎬 EPISODE 3 -->
 <div class="scene" id="scene3">
   <div class="card">
-    <h2>💍 Our Story</h2>
+    <h2>Episode 2: The Journey</h2>
     <img class="story-img" src="photo2.jpg">
+    <div class="narration">
+      Every moment built a story worth remembering forever.
+    </div>
     <button class="btn" onclick="nextScene()">Continue</button>
   </div>
 </div>
 
-<!-- 📅 SCENE 4 -->
+<!-- 🎬 EPISODE 4 -->
 <div class="scene" id="scene4">
   <div class="card">
-    <h2>📅 Wedding Day</h2>
+    <h2>Episode 3: Forever</h2>
     <img class="story-img" src="photo3.jpg">
-    <p>May 09, 2026<br>3:00 PM</p>
-    <button class="btn" onclick="nextScene()">Location</button>
+    <div class="narration">
+      On May 09, 2026 — their story becomes forever.
+    </div>
+    <button class="btn" onclick="nextScene()">Venue</button>
   </div>
 </div>
 
-<!-- 📍 SCENE 5 -->
+<!-- 🎬 EPISODE 5 -->
 <div class="scene" id="scene5">
   <div class="card">
-    <h2>📍 Hila's Residence</h2>
+    <h2>📍 The Venue</h2>
 
     <iframe
       src="https://www.google.com/maps?q=12.993418,124.037609&z=17&output=embed"
-      width="100%"
-      height="200">
+      width="100%" height="200">
     </iframe>
+
+    <div class="narration">
+      Hila’s Residence — where love gathers.
+    </div>
 
     <button class="btn" onclick="nextScene()">RSVP</button>
   </div>
 </div>
 
-<!-- 📩 SCENE 6 -->
+<!-- 🎬 EPISODE 6 -->
 <div class="scene" id="scene6">
   <div class="card">
-    <h2>📩 RSVP</h2>
+    <h2>RSVP</h2>
+
+    <div class="narration">
+      Your presence completes our story.
+    </div>
 
     <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeDr5oDuW-zchdjyluh25x_yBvxEZwGTUcqQTq1S87HJQ5WyA/viewform" target="_blank">
       Confirm Attendance
     </a>
 
-    <button class="btn" onclick="nextScene()">Finish</button>
+    <button class="btn" onclick="nextScene()">Final Chapter</button>
   </div>
 </div>
 
-<!-- 🎉 SCENE 7 -->
+<!-- 🎬 EPISODE 7 -->
 <div class="scene" id="scene7">
   <div class="card">
-    <h2>✨ Thank You</h2>
-    <p>Kish & Glydel<br>Forever Begins Here</p>
+    <h2>Final Chapter</h2>
+
+    <div class="narration">
+      Thank you for witnessing our story.<br><br>
+      — Kish & Glydel
+    </div>
   </div>
 </div>
 
@@ -196,25 +262,54 @@ function showScene(n){
 
 function nextScene(){
   if(current < total){
+    fadeMusic();
     current++;
     showScene(current);
+    fadeMusicUp();
   }
 }
 
-// 🎵 START MUSIC (MOBILE SAFE)
+// 🎵 CINEMATIC AUDIO CONTROL
 function startMusic(){
-  const music = document.getElementById("bgMusic");
-  music.volume = 0.6;
-  music.play().catch(()=>{});
+  const m = document.getElementById("bgMusic");
+  m.volume = 0;
+  m.play().catch(()=>{});
+
+  // fade in
+  let v = 0;
+  let fade = setInterval(()=>{
+    if(v < 0.6){
+      v += 0.05;
+      m.volume = v;
+    } else clearInterval(fade);
+  },100);
 }
 
-// 🎬 START EXPERIENCE
-function startExperience(){
-  startMusic();
-  nextScene();
+function fadeMusic(){
+  const m = document.getElementById("bgMusic");
+  let v = m.volume;
+
+  let fade = setInterval(()=>{
+    if(v > 0.2){
+      v -= 0.05;
+      m.volume = v;
+    } else clearInterval(fade);
+  },80);
 }
 
-// 🎥 VIDEO AUTO FLOW
+function fadeMusicUp(){
+  const m = document.getElementById("bgMusic");
+  let v = m.volume;
+
+  let fade = setInterval(()=>{
+    if(v < 0.6){
+      v += 0.05;
+      m.volume = v;
+    } else clearInterval(fade);
+  },80);
+}
+
+// 🎬 START FLOW
 window.addEventListener("load",()=>{
   const video = document.getElementById("introVideo");
 
