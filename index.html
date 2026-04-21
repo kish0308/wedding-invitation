@@ -14,7 +14,7 @@ body {
   overflow-x: hidden;
 }
 
-/* 🌟 glow */
+/* 🌟 glow background */
 body::before {
   content: "";
   position: fixed;
@@ -43,14 +43,12 @@ body::before {
   position: absolute;
   width: 100%;
   height: 100%;
-  top: 0;
-  left: 0;
   color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgba(0,0,0,0.3);
+  background: rgba(0,0,0,0.35);
 }
 
 .videoOverlay h1 {
@@ -60,31 +58,95 @@ body::before {
 
 .videoOverlay button {
   padding: 12px 20px;
+  margin-top: 10px;
   background: rgba(0,0,0,0.6);
   border: 1px solid white;
   color: white;
-  margin-top: 10px;
 }
 
-/* 📜 ENVELOPE */
+/* 📜 LUXURY ENVELOPE */
 #envelope {
   position: fixed;
   width: 100%;
   height: 100%;
-  background: #f5e6d3;
+  background: radial-gradient(circle at top, #2a1a14, #000);
   display: none;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  z-index: 2000;
+  z-index: 2500;
 }
 
-.flap {
-  width: 200px;
-  height: 120px;
-  background: #e0c3a0;
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
-  transition: 1.5s;
+/* glow */
+.env-glow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(212,175,55,0.3), transparent);
+  border-radius: 50%;
+  animation: pulse 3s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%,100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.3); opacity: 0.2; }
+}
+
+/* card */
+.envelope-box {
+  position: relative;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,215,0,0.3);
+  padding: 30px 25px;
+  border-radius: 18px;
+  width: 280px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+  animation: fadeUp 1.5s ease;
+}
+
+@keyframes fadeUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* seal */
+.seal {
+  font-size: 26px;
+  margin-bottom: 10px;
+  animation: float 2s infinite ease-in-out;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.envelope-box h2 {
+  color: #d4af37;
+  margin: 5px 0;
+  letter-spacing: 2px;
+}
+
+.env-names {
+  font-size: 22px;
+  color: white;
+}
+
+.env-sub {
+  font-size: 14px;
+  color: #ccc;
+  margin-top: 8px;
+}
+
+.env-btn {
+  margin-top: 15px;
+  padding: 12px 20px;
+  background: linear-gradient(45deg, #b76e79, #d4af37);
+  border: none;
+  color: white;
+  border-radius: 10px;
 }
 
 /* 🌸 PETALS */
@@ -105,7 +167,7 @@ body::before {
   }
 }
 
-/* 💍 CONTENT */
+/* CONTENT */
 .container {
   padding: 30px;
 }
@@ -125,12 +187,12 @@ h1 { font-size: 42px; }
   transform: translateY(40px);
   transition: 2s ease;
 }
+
 .fade.show {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* 📸 */
 .gallery img {
   width: 90%;
   max-width: 300px;
@@ -138,7 +200,6 @@ h1 { font-size: 42px; }
   border-radius: 12px;
 }
 
-/* BUTTON */
 .btn {
   padding: 12px 20px;
   background: linear-gradient(45deg, #b76e79, #d4af37);
@@ -151,12 +212,11 @@ h1 { font-size: 42px; }
 
 <body>
 
-<!-- 🎥 NETFLIX STYLE INTRO -->
+<!-- 🎥 VIDEO INTRO -->
 <div id="videoIntro">
   <video id="introVideo" playsinline muted>
     <source src="prenup.mp4" type="video/mp4">
   </video>
-
   <div class="videoOverlay">
     <h1>Kish & Glydel</h1>
     <button onclick="skipVideo()">Skip Intro</button>
@@ -165,12 +225,24 @@ h1 { font-size: 42px; }
 
 <!-- 📜 ENVELOPE -->
 <div id="envelope">
-  <div class="flap" id="flap"></div>
-  <button onclick="openInvite()">Open Invitation</button>
+  <div class="env-glow"></div>
+
+  <div class="envelope-box">
+    <div class="seal">💍</div>
+    <h2>Wedding Invitation</h2>
+    <div class="env-names">Kish & Glydel</div>
+    <div class="env-sub">
+      May 09, 2026<br>
+      3:00 PM<br>
+      Hila's Residence
+    </div>
+    <button class="env-btn" onclick="openInvite()">Open Invitation</button>
+  </div>
 </div>
 
 <div id="petals"></div>
 
+<!-- MAIN CONTENT -->
 <div class="container">
 
 <h1 class="fade">You're Invited</h1>
@@ -185,26 +257,23 @@ Hila's Residence
 
 <div id="countdown" class="fade"></div>
 
-<!-- 📍 MAP -->
+<!-- MAP -->
 <div class="fade">
 <h3>Location</h3>
 <iframe 
 src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d268.39342950434235!2d124.03760950743883!3d12.993418406871323!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTLCsDU5JzM2LjIiTiAxMjTCsDAyJzE2LjEiRQ!5e0!3m2!1sen!2sph!4v1776776870268!5m2!1sen!2sph"
-width="100%" height="250" style="border:0;">
-</iframe>
-<h3></h3>
+width="100%" height="250" style="border:0;"></iframe>
 </div>
 
-<!-- 📩 RSVP -->
+<!-- RSVP -->
 <div class="fade">
 <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeDr5oDuW-zchdjyluh25x_yBvxEZwGTUcqQTq1S87HJQ5WyA/viewform" target="_blank">
-RSVP Here
+RSVP
 </a>
 </div>
 
-<!-- 📸 GALLERY -->
+<!-- GALLERY -->
 <div class="gallery fade">
-<h3>Our Moments</h3>
 <img src="photo1.jpg">
 <img src="photo2.jpg">
 <img src="photo3.jpg">
@@ -221,20 +290,14 @@ RSVP Here
 // 🎬 VIDEO FLOW
 window.addEventListener("load", () => {
   const video = document.getElementById("introVideo");
-
   video.play().catch(()=>{});
-
-  video.onended = () => {
-    showEnvelope();
-  };
+  video.onended = showEnvelope;
 });
 
-// ⏭ SKIP VIDEO
 function skipVideo() {
   showEnvelope();
 }
 
-// 📜 SHOW ENVELOPE
 function showEnvelope() {
   document.getElementById("videoIntro").style.display = "none";
   document.getElementById("envelope").style.display = "flex";
@@ -243,7 +306,6 @@ function showEnvelope() {
 // 💌 OPEN INVITE
 function openInvite() {
   document.getElementById("envelope").style.display = "none";
-
   document.getElementById("bgMusic").play();
 
   document.querySelectorAll(".fade").forEach((el,i)=>{
@@ -263,17 +325,17 @@ setInterval(()=>{
   const d = weddingDate - now;
 
   document.getElementById("countdown").innerHTML =
-  Math.floor(d/(1000*60*60*24))+"d "+
-  Math.floor((d%(1000*60*60*24))/(1000*60*60))+"h "+
-  Math.floor((d%(1000*60*60))/(1000*60))+"m "+
-  Math.floor((d%(1000*60))/1000)+"s";
+    Math.floor(d/(1000*60*60*24))+"d "+
+    Math.floor((d%(1000*60*60*24))/(1000*60*60))+"h "+
+    Math.floor((d%(1000*60*60))/(1000*60))+"m "+
+    Math.floor((d%(1000*60))/1000)+"s";
 },1000);
 }
 
 // 🌸 PETALS
 function createPetals(){
 setInterval(()=>{
-  const p = document.createElement("div");
+  const p=document.createElement("div");
   p.className="petal";
   p.style.left=Math.random()*100+"vw";
   p.style.animationDuration=(5+Math.random()*5)+"s";
