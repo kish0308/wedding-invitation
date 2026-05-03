@@ -43,7 +43,7 @@ body {
   pointer-events: all;
 }
 
-/* 🎞️ INTRO CENTER */
+/* 🎞️ CENTER INTRO */
 .intro-center {
   display: flex;
   flex-direction: column;
@@ -59,13 +59,6 @@ body {
   background: linear-gradient(90deg,#d4af37,#fff5cc,#d4af37);
   -webkit-background-clip: text;
   color: transparent;
-}
-
-/* 🎙️ TEXT */
-.narration {
-  max-width: 320px;
-  font-size: 16px;
-  opacity: 0.85;
 }
 
 /* 🪶 CARD */
@@ -95,28 +88,42 @@ body {
   cursor: pointer;
 }
 
-/* 📸 SLIDESHOW */
+/* 📸 SLIDESHOW FIX (CENTERED PROPERLY) */
 .slideshow {
   position: relative;
   width: 100%;
   max-width: 300px;
   height: 220px;
   margin: 12px auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   overflow: hidden;
   border-radius: 14px;
+
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
 }
 
 .slide {
   position: absolute;
+  top: 50%;
+  left: 50%;
+
   width: 100%;
   height: 100%;
   object-fit: cover;
+
+  transform: translate(-50%, -50%) scale(1.05);
+
   opacity: 0;
   transition: opacity 1s ease;
 }
 
 .slide.active {
   opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
 }
 
 /* ⏳ COUNTDOWN */
@@ -124,6 +131,14 @@ body {
   margin-top: 10px;
   font-family: monospace;
   color: #d4af37;
+}
+
+/* 🎙️ TEXT */
+.narration {
+  max-width: 320px;
+  font-size: 16px;
+  opacity: 0.85;
+  margin-top: 10px;
 }
 </style>
 </head>
@@ -182,7 +197,7 @@ body {
   </div>
 </div>
 
-<!-- ⏳ COUNTDOWN -->
+<!-- ⏳ SCENE 4 -->
 <div class="scene" id="scene4">
   <div class="card">
     <h2>Forever Begins</h2>
@@ -220,6 +235,7 @@ body {
 <div class="scene" id="scene6">
   <div class="card">
     <h2>Final Chapter</h2>
+
     <div class="narration">
       Thank you for being part of our story.<br><br>
       — Kish & Glydel
@@ -229,23 +245,19 @@ body {
 
 <script>
 
-let current = "intro";
-
-// 🎬 NAVIGATION
 function go(scene){
   document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
   document.getElementById("scene"+scene).classList.add("active");
 }
 
-// 🎮 START FLOW
-function choosePath(type){
+function choosePath(){
   go(2);
 }
 
-// 📸 SLIDESHOW ENGINE
+/* 🎞️ SLIDESHOW ENGINE */
 function startSlides(){
-  document.querySelectorAll(".slideshow").forEach(slideshow=>{
-    let slides = slideshow.querySelectorAll(".slide");
+  document.querySelectorAll(".slideshow").forEach(show=>{
+    let slides = show.querySelectorAll(".slide");
     let i = 0;
 
     setInterval(()=>{
@@ -256,7 +268,7 @@ function startSlides(){
   });
 }
 
-// ⏳ COUNTDOWN
+/* ⏳ COUNTDOWN */
 const weddingDate = new Date("May 09, 2026 15:00:00").getTime();
 
 setInterval(()=>{
@@ -278,7 +290,6 @@ setInterval(()=>{
 
 },1000);
 
-// 🚀 INIT
 window.onload = startSlides;
 
 </script>
