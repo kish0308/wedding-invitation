@@ -57,6 +57,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+
   z-index: 0;
   pointer-events: none;
 }
@@ -64,14 +65,24 @@ body {
 /* 🎞️ CENTER INTRO */
 .intro-center {
   position: relative;
-  z-index: 100;
+  z-index: 10;
+
+  height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  text-align: center;
-  gap: 12px;
 }
 
+
+.intro-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+  
 /* 🎞️ TITLE */
 .title {
   font-size: 44px;
@@ -158,21 +169,26 @@ body {
 <!-- 🎬 INTRO -->
 <div class="scene active" id="sceneintro">
 
-  <video id="introVideo" muted playsinline>
-    <source src="prenup.mp4" type="video/mp4">
-  </video>
+  <div class="intro-layer">
 
-  <div class="intro-center">
-    <div class="title">Kish & Glydel</div>
+    <video id="introVideo" muted playsinline>
+      <source src="prenup.mp4" type="video/mp4">
+    </video>
 
-    <div class="narration">
-      Choose how you want to experience our wedding film:
+    <div class="intro-center">
+      <div class="title">Kish & Glydel</div>
+
+      <div class="narration">
+        Choose how you want to experience our wedding film:
+      </div>
+
+      <button class="btn" onclick="startExperience('romantic')">💖 Romantic Story</button>
+      <button class="btn" onclick="startExperience('cinematic')">🎬 Cinematic Documentary</button>
+      <button class="btn" onclick="startExperience('fast')">⚡ Skip to Wedding Day</button>
     </div>
 
-    <button class="btn" onclick="startExperience('romantic')">💖 Romantic Story</button>
-    <button class="btn" onclick="startExperience('cinematic')">🎬 Cinematic Documentary</button>
-    <button class="btn" onclick="startExperience('fast')">⚡ Skip to Wedding Day</button>
   </div>
+
 </div>
 
 <!-- 💍 SCENES -->
