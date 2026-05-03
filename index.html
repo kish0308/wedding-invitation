@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kish & Glydel | Interactive Wedding Film</title>
+<title>Kish & Glydel | Wedding Film</title>
 
 <style>
 body {
@@ -30,29 +30,27 @@ body {
   height: 100%;
   opacity: 0;
   transform: scale(1.08);
-  filter: blur(12px);
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  text-align: center;
-  transition: all 1.2s ease;
+  transition: all 1s ease;
   pointer-events: none;
 }
 
 .scene.active {
   opacity: 1;
   transform: scale(1);
-  filter: blur(0);
   pointer-events: all;
 }
 
-/* 🎥 VIDEO */
-video {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* 🎞️ INTRO CENTER */
+.intro-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
 }
 
 /* 🎞️ TITLE */
@@ -61,31 +59,29 @@ video {
   background: linear-gradient(90deg,#d4af37,#fff5cc,#d4af37);
   -webkit-background-clip: text;
   color: transparent;
-  animation: glow 3s infinite;
-}
-
-@keyframes glow {
-  0%,100% { filter: brightness(1); }
-  50% { filter: brightness(1.4); }
 }
 
 /* 🎙️ TEXT */
 .narration {
   max-width: 320px;
   font-size: 16px;
-  line-height: 1.6;
   opacity: 0.85;
-  margin-top: 15px;
 }
 
 /* 🪶 CARD */
 .card {
-  max-width: 340px;
+  width: 340px;
   padding: 22px;
+  margin: auto;
+  text-align: center;
   background: rgba(255,255,255,0.06);
   border-radius: 18px;
   backdrop-filter: blur(14px);
   border: 1px solid rgba(255,215,0,0.15);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* 🎬 BUTTON */
@@ -99,30 +95,15 @@ video {
   cursor: pointer;
 }
 
-/* 🌌 PARTICLES */
-.particle {
-  position: fixed;
-  width: 3px;
-  height: 3px;
-  background: rgba(255,255,255,0.3);
-  border-radius: 50%;
-  animation: float 10s linear infinite;
-}
-
-@keyframes float {
-  from { transform: translateY(100vh); }
-  to { transform: translateY(-10vh); }
-}
-
 /* 📸 SLIDESHOW */
 .slideshow {
-  width: 85%;
-  max-width: 320px;
-  height: 220px;
   position: relative;
+  width: 100%;
+  max-width: 300px;
+  height: 220px;
+  margin: 12px auto;
   overflow: hidden;
-  border-radius: 16px;
-  margin-top: 15px;
+  border-radius: 14px;
 }
 
 .slide {
@@ -131,24 +112,18 @@ video {
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  transform: scale(1.15);
-  transition: opacity 1.5s ease, transform 6s ease;
+  transition: opacity 1s ease;
 }
 
 .slide.active {
   opacity: 1;
-  transform: scale(1);
 }
 
 /* ⏳ COUNTDOWN */
 #countdown {
-  margin-top: 15px;
-  font-size: 18px;
+  margin-top: 10px;
   font-family: monospace;
   color: #d4af37;
-  background: rgba(0,0,0,0.3);
-  padding: 10px;
-  border-radius: 10px;
 }
 </style>
 </head>
@@ -157,28 +132,12 @@ video {
 
 <div class="bg"></div>
 
-<!-- 🎵 MUSIC -->
-<audio id="music" preload="auto"></audio>
-
-<!-- 🌌 PARTICLES -->
-<script>
-for(let i=0;i<25;i++){
-  let p=document.createElement("div");
-  p.className="particle";
-  p.style.left=Math.random()*100+"vw";
-  p.style.animationDuration=(6+Math.random()*8)+"s";
-  document.body.appendChild(p);
-}
-</script>
-
-<!-- 🎥 INTRO -->
+<!-- 🎬 INTRO -->
 <div class="scene active" id="sceneintro">
-  <video id="introVideo" muted playsinline>
-    <source src="prenup.mp4" type="video/mp4">
-  </video>
 
-  <div style="position:absolute;">
+  <div class="intro-center">
     <div class="title">Kish & Glydel</div>
+
     <div class="narration">
       Choose how you want to experience our wedding film:
     </div>
@@ -187,6 +146,7 @@ for(let i=0;i<25;i++){
     <button class="btn" onclick="choosePath('cinematic')">🎬 Cinematic Documentary</button>
     <button class="btn" onclick="choosePath('fast')">⚡ Skip to Wedding Day</button>
   </div>
+
 </div>
 
 <!-- 💍 SCENE 2 -->
@@ -204,7 +164,6 @@ for(let i=0;i<25;i++){
     <div class="narration">Two souls crossed paths unexpectedly…</div>
 
     <button class="btn" onclick="go('3')">Continue</button>
-    <button class="btn" onclick="go('3a')">View Attire</button>
   </div>
 </div>
 
@@ -220,23 +179,6 @@ for(let i=0;i<25;i++){
     </div>
 
     <button class="btn" onclick="go('4')">Wedding Day</button>
-    <button class="btn" onclick="go('5')">Venue</button>
-  </div>
-</div>
-
-<!-- 🎨 ATTIRE -->
-<div class="scene" id="scene3a">
-  <div class="card">
-    <h2>🎨 Dress Code</h2>
-    <img class="story-img" src="attire.jpg">
-
-    <div class="narration">
-      Gold • Champagne • Ivory • Blush Pink<br><br>
-      Gentlemen: Beige suits<br>
-      Ladies: Soft elegant gowns
-    </div>
-
-    <button class="btn" onclick="go('4')">Continue</button>
   </div>
 </div>
 
@@ -266,7 +208,8 @@ for(let i=0;i<25;i++){
   <div class="card">
     <h2>📍 Venue</h2>
 
-    <iframe src="https://www.google.com/maps?q=12.993418,124.037609&z=17&output=embed"
+    <iframe
+      src="https://www.google.com/maps?q=12.993418,124.037609&z=17&output=embed"
       width="100%" height="200"></iframe>
 
     <button class="btn" onclick="go('6')">Next</button>
@@ -286,7 +229,7 @@ for(let i=0;i<25;i++){
 
 <script>
 
-const music = document.getElementById("music");
+let current = "intro";
 
 // 🎬 NAVIGATION
 function go(scene){
@@ -294,45 +237,24 @@ function go(scene){
   document.getElementById("scene"+scene).classList.add("active");
 }
 
-// 🎮 START + MUSIC
+// 🎮 START FLOW
 function choosePath(type){
-
-  music.src = "prenup.mp3";
-  music.load();
-
-  let playPromise = music.play();
-
-  if(playPromise !== undefined){
-    playPromise.then(()=>{
-      music.volume = 0;
-      let v=0;
-      let fade = setInterval(()=>{
-        if(v < 0.6){
-          v += 0.05;
-          music.volume = v;
-        } else clearInterval(fade);
-      },100);
-    }).catch(()=>{
-      setTimeout(()=>music.play(),300);
-    });
-  }
-
-  document.getElementById("introVideo").play().catch(()=>{});
-
-  if(type === "fast") go(4);
-  else go(2);
+  go(2);
 }
 
 // 📸 SLIDESHOW ENGINE
-setInterval(()=>{
+function startSlides(){
   document.querySelectorAll(".slideshow").forEach(slideshow=>{
     let slides = slideshow.querySelectorAll(".slide");
-    let currentIndex = Array.from(slides).findIndex(s=>s.classList.contains("active"));
+    let i = 0;
 
-    slides[currentIndex].classList.remove("active");
-    slides[(currentIndex+1)%slides.length].classList.add("active");
+    setInterval(()=>{
+      slides[i].classList.remove("active");
+      i = (i + 1) % slides.length;
+      slides[i].classList.add("active");
+    }, 3000);
   });
-},4000);
+}
 
 // ⏳ COUNTDOWN
 const weddingDate = new Date("May 09, 2026 15:00:00").getTime();
@@ -355,6 +277,9 @@ setInterval(()=>{
     `${d}d ${h}h ${m}m ${s}s`;
 
 },1000);
+
+// 🚀 INIT
+window.onload = startSlides;
 
 </script>
 
