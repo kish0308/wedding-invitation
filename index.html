@@ -17,15 +17,17 @@ body {
 /* 🌌 BACKGROUND */
 .bg {
   position: fixed;
-  inset: 0;
+  width: 100%;
+  height: 100%;
   background: radial-gradient(circle at center, #0d0d0d, #000);
-  z-index: -10;
+  z-index: -3;
 }
 
 /* 🎬 SCENES */
 .scene {
   position: fixed;
-  inset: 0;
+  width: 100%;
+  height: 100%;
   opacity: 0;
   display: flex;
   justify-content: center;
@@ -39,29 +41,35 @@ body {
   pointer-events: all;
 }
 
-/* 🔥 INTRO SAFE ZONE */
+/* 🔥 IMPORTANT FIX: allow interaction */
 #sceneintro {
-  z-index: 9999;
+  z-index: 10;
+  pointer-events: auto;
 }
 
-/* 🎥 VIDEO LAYER (NEVER BLOCKS INPUT) */
-.video-bg {
-  position: fixed;
-  inset: 0;
+/* 🎥 VIDEO LAYER */
+#introVideo {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   z-index: 0;
   pointer-events: none;
 }
 
-.video-bg video {
+/* 🎯 OVERLAY FIX LAYER */
+.intro-layer {
+  position: absolute;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  z-index: 2;
 }
 
-/* 🧠 UI LAYER */
-.ui-layer {
+/* 🎞️ CENTER INTRO */
+.intro-center {
   position: relative;
-  z-index: 10;
+  z-index: 999;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -92,7 +100,7 @@ body {
   align-items: center;
 }
 
-/* 🔘 BUTTON */
+/* 🎬 BUTTON (FIXED CLICK LAYER) */
 .btn {
   margin-top: 12px;
   padding: 12px 18px;
@@ -101,9 +109,8 @@ body {
   background: linear-gradient(45deg,#b76e79,#d4af37);
   color: white;
   cursor: pointer;
-  pointer-events: auto;
   position: relative;
-  z-index: 99999;
+  z-index: 9999;
 }
 
 /* 📸 SLIDESHOW */
@@ -156,13 +163,13 @@ body {
 <!-- 🎬 INTRO -->
 <div class="scene active" id="sceneintro">
 
-  <div class="video-bg">
-    <video id="introVideo" muted playsinline>
-      <source src="prenup.mp4" type="video/mp4">
-    </video>
-  </div>
+  <video id="introVideo" muted playsinline>
+    <source src="prenup.mp4" type="video/mp4">
+  </video>
 
-  <div class="ui-layer">
+  <div class="intro-layer"></div>
+
+  <div class="intro-center">
     <div class="title">Kish & Glydel</div>
 
     <div class="narration">
@@ -173,7 +180,6 @@ body {
     <button class="btn" onclick="startExperience('cinematic')">🎬 Cinematic Documentary</button>
     <button class="btn" onclick="startExperience('fast')">⚡ Skip to Wedding Day</button>
   </div>
-
 </div>
 
 <!-- 💍 SCENES -->
@@ -256,29 +262,14 @@ function go(scene){
   document.getElementById("scene"+scene).classList.add("active");
 }
 
-/* 🎬 INTRO (100% STABLE) */
+/* 🎬 INTRO FIXED */
 function startExperience(type){
   const video = document.getElementById("introVideo");
 
-  video.muted = true;
-  video.playsInline = true;
-
   video.play().catch(()=>{});
 
-  setTimeout(()=>{
-    if(type === "fast"){
-      go(4);
-    } else {
-      go(2);
-    }
-  }, 1500);
-
   video.onended = () => {
-    if(type === "fast"){
-      go(4);
-    } else {
-      go(2);
-    }
+    go(2);
   };
 }
 
@@ -318,7 +309,6 @@ setInterval(()=>{
 
 },1000);
 
-/* INIT */
 window.onload = startSlides;
 
 </script>
