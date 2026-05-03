@@ -8,181 +8,196 @@
 <style>
 body {
   margin: 0;
-  background: linear-gradient(to bottom, #f5efe6, #e8dccb);
+  background: #f3ede4;
   color: #4b3b2a;
   font-family: 'Georgia', serif;
   overflow: hidden;
 }
 
-/* 🌿 BACKGROUND */
-.bg {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at center, #f5efe6, #e0d3c0);
-  z-index: -3;
+/* 🎬 FILM OVERLAY */
+body::after {
+  content:"";
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:
+    radial-gradient(circle, transparent 60%, rgba(0,0,0,0.4)),
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0.02),
+      rgba(0,0,0,0.02) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+  pointer-events:none;
 }
 
-/* 🎬 SCENES */
+/* 🎬 SCENE */
 .scene {
   position: fixed;
   width: 100%;
   height: 100%;
   opacity: 0;
   transform: scale(1.05);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  text-align: center;
-  transition: all 1.2s ease;
-  pointer-events: none;
+  transition: 1.2s ease;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  text-align:center;
 }
 
 .scene.active {
-  opacity: 1;
-  transform: scale(1);
-  pointer-events: all;
+  opacity:1;
+  transform:scale(1);
 }
 
 /* 🎥 VIDEO */
 video {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(0.7) sepia(20%);
+  position:absolute;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter: brightness(0.65) sepia(25%);
+}
+
+/* 🌿 GLASS CARD */
+.card {
+  background: rgba(255,255,255,0.55);
+  padding: 24px;
+  border-radius: 20px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.25);
 }
 
 /* 🌿 TITLE */
 .title {
   font-size: 42px;
+  letter-spacing: 2px;
   color: #8b6f47;
 }
 
 /* ✨ TEXT */
-.narration {
-  max-width: 320px;
-  font-size: 16px;
-  line-height: 1.6;
-  margin-top: 15px;
-}
-
-/* 🪵 CARD */
-.card {
-  max-width: 340px;
-  padding: 22px;
-  background: rgba(255,255,255,0.6);
-  border-radius: 18px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(139,111,71,0.2);
+.text {
+  margin-top:10px;
+  font-size:16px;
+  opacity:0.85;
 }
 
 /* 🌿 BUTTON */
 .btn {
-  margin-top: 12px;
-  padding: 12px 18px;
-  border: none;
-  border-radius: 10px;
-  background: #8b6f47;
-  color: white;
-  cursor: pointer;
+  margin-top:15px;
+  padding:12px 20px;
+  border:none;
+  border-radius:10px;
+  background:#8b6f47;
+  color:white;
 }
 
-/* 🌸 SLIDESHOW */
+/* 📸 KEN BURNS SLIDESHOW */
 .slideshow {
-  position: relative;
-  width: 90%;
-  max-width: 320px;
-  height: 220px;
-  overflow: hidden;
-  border-radius: 16px;
+  width:300px;
+  height:200px;
+  overflow:hidden;
+  border-radius:16px;
+  position:relative;
 }
 
 .slide {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 1.5s ease;
+  position:absolute;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transform:scale(1.2);
+  transition: opacity 1.5s ease, transform 6s ease;
 }
 
 .slide.active {
-  opacity: 1;
+  opacity:1;
+  transform:scale(1);
 }
 
-/* 🌿 COUNTDOWN */
+/* 🌸 FLOAT PARTICLES */
+.petal {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: rgba(139,111,71,0.3);
+  border-radius:50%;
+  animation: float 12s linear infinite;
+}
+
+@keyframes float {
+  from { transform: translateY(100vh); }
+  to { transform: translateY(-10vh); }
+}
+
+/* ⏳ COUNTDOWN */
 #countdown {
-  margin-top: 15px;
-  font-size: 18px;
-  color: #8b6f47;
+  margin-top:12px;
+  font-family:monospace;
+  color:#8b6f47;
 }
 </style>
 </head>
 
 <body>
 
-<div class="bg"></div>
-
 <!-- 🎵 MUSIC -->
 <audio id="music" preload="auto"></audio>
 
-<!-- 🎥 INTRO -->
-<div class="scene active" id="sceneintro">
+<!-- 🌸 PARTICLES -->
+<script>
+for(let i=0;i<20;i++){
+ let p=document.createElement("div");
+ p.className="petal";
+ p.style.left=Math.random()*100+"vw";
+ p.style.animationDuration=(8+Math.random()*6)+"s";
+ document.body.appendChild(p);
+}
+</script>
 
+<!-- 🎥 INTRO -->
+<div class="scene active" id="scene1">
   <video autoplay muted playsinline>
-    <source src="prenup.mp4" type="video/mp4">
+    <source src="prenup.mp4">
   </video>
 
-  <div style="position:absolute;">
+  <div class="card">
     <div class="title">Kish & Glydel</div>
-
-    <div class="narration">
-      Welcome to our wedding story
-    </div>
-
+    <div class="text">A story written in forever</div>
     <button class="btn" onclick="start()">Enter</button>
   </div>
 </div>
 
-<!-- 💍 SCENE 2 -->
+<!-- 💍 STORY -->
 <div class="scene" id="scene2">
   <div class="card">
-    <h2>Our Beginning</h2>
+    <h2>Our Story</h2>
 
-    <!-- 🌸 SLIDESHOW -->
     <div class="slideshow">
       <img class="slide active" src="photo1.jpg">
       <img class="slide" src="photo2.jpg">
       <img class="slide" src="photo3.jpg">
     </div>
 
-    <div class="narration">
-      A story that started with a simple hello…
-    </div>
-
-    <button class="btn" onclick="next()">Continue</button>
+    <div class="text">Every moment led us here.</div>
+    <button class="btn" onclick="next()">Next</button>
   </div>
 </div>
 
-<!-- ⏳ SCENE 3 -->
+<!-- ⏳ DATE -->
 <div class="scene" id="scene3">
   <div class="card">
-    <h2>The Wedding Day</h2>
-
-    <div class="narration">
-      May 09, 2026 • 3:00 PM<br>
-      Hila’s Residence
-    </div>
-
+    <h2>May 09, 2026</h2>
+    <div class="text">3:00 PM • Hila's Residence</div>
     <div id="countdown"></div>
-
     <button class="btn" onclick="next()">Gallery</button>
   </div>
 </div>
 
-<!-- 📸 SCENE 4 -->
+<!-- 📸 GALLERY -->
 <div class="scene" id="scene4">
   <div class="card">
     <h2>Our Moments</h2>
@@ -193,7 +208,7 @@ video {
       <img class="slide" src="photo3.jpg">
     </div>
 
-    <button class="btn" onclick="next()">Final</button>
+    <button class="btn" onclick="next()">End</button>
   </div>
 </div>
 
@@ -201,86 +216,80 @@ video {
 <div class="scene" id="scene5">
   <div class="card">
     <h2>See You There</h2>
-
-    <div class="narration">
-      We can’t wait to celebrate with you.<br><br>
-      — Kish & Glydel
-    </div>
+    <div class="text">Kish & Glydel</div>
   </div>
 </div>
 
 <script>
 
-let current = 1;
+let current=1;
 
 // 🎬 START
 function start(){
-  playMusic();
-  show(2);
+ playMusic();
+ show(2);
 }
 
-// 🎬 NAVIGATION
+// 🎬 NAV
 function show(n){
-  document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
-  document.getElementById("scene"+n).classList.add("active");
+ document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
+ document.getElementById("scene"+n).classList.add("active");
 }
 
 function next(){
-  current++;
-  show(current);
+ current++;
+ show(current);
 }
 
 // 🎵 MUSIC
 function playMusic(){
-  const m = document.getElementById("music");
-  m.src = "prenup.mp3";
-  m.volume = 0;
-  m.play().catch(()=>{});
+ const m=document.getElementById("music");
+ m.src="prenup.mp3";
+ m.volume=0;
+ m.play().catch(()=>{});
 
-  let v = 0;
-  let fade = setInterval(()=>{
-    if(v < 0.5){
-      v += 0.05;
-      m.volume = v;
-    } else clearInterval(fade);
-  },100);
+ let v=0;
+ let fade=setInterval(()=>{
+   if(v<0.5){ v+=0.05; m.volume=v;}
+   else clearInterval(fade);
+ },100);
 }
 
-// 🌸 SLIDESHOW
+// 📸 SLIDESHOW
 setInterval(()=>{
-  document.querySelectorAll(".slideshow").forEach(slideshow=>{
-    const slides = slideshow.querySelectorAll(".slide");
-    let active = 0;
-
-    slides.forEach((s,i)=>{
-      if(s.classList.contains("active")) active = i;
-      s.classList.remove("active");
-    });
-
-    slides[(active+1)%slides.length].classList.add("active");
-  });
-},3000);
+ document.querySelectorAll(".slideshow").forEach(s=>{
+  let slides=s.querySelectorAll(".slide");
+  let i=[...slides].findIndex(el=>el.classList.contains("active"));
+  slides[i].classList.remove("active");
+  slides[(i+1)%slides.length].classList.add("active");
+ });
+},4000);
 
 // ⏳ COUNTDOWN
-const date = new Date("May 09, 2026 15:00:00").getTime();
+const date=new Date("May 09, 2026 15:00:00").getTime();
 
 setInterval(()=>{
-  const now = new Date().getTime();
-  const d = date - now;
+ let now=new Date().getTime();
+ let d=date-now;
 
-  if(d < 0){
-    document.getElementById("countdown").innerHTML = "💍 Today is the day!";
-    return;
-  }
+ if(d<0){document.getElementById("countdown").innerHTML="Today!";return;}
 
-  const days = Math.floor(d/(1000*60*60*24));
-  const hrs = Math.floor((d%(1000*60*60*24))/(1000*60*60));
-  const mins = Math.floor((d%(1000*60*60))/(1000*60));
-  const sec = Math.floor((d%(1000*60))/1000);
+ let days=Math.floor(d/(1000*60*60*24));
+ let h=Math.floor((d%(1000*60*60*24))/(1000*60*60));
+ let m=Math.floor((d%(1000*60*60))/(1000*60));
+ let s=Math.floor((d%(1000*60))/1000);
 
-  document.getElementById("countdown").innerHTML =
-    `${days}d ${hrs}h ${mins}m ${sec}s`;
+ document.getElementById("countdown").innerHTML=
+ `${days}d ${h}h ${m}m ${s}s`;
 },1000);
+
+// 📱 SWIPE NAVIGATION
+let startX=0;
+document.addEventListener("touchstart",e=>startX=e.touches[0].clientX);
+document.addEventListener("touchend",e=>{
+ let endX=e.changedTouches[0].clientX;
+ if(endX<startX-50) next();
+});
 
 </script>
 
