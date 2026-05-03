@@ -29,30 +29,45 @@ body {
   width: 100%;
   height: 100%;
   opacity: 0;
-  transform: scale(1);
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 1s ease;
+  transition: 1s ease;
   pointer-events: none;
 }
 
 .scene.active {
   opacity: 1;
   pointer-events: all;
-  touch-action: manipulation;
+}
+
+/* 🧠 FIX LAYERS */
+#sceneintro {
+  z-index: 10;
+}
+
+#sceneintro .intro-center {
+  position: relative;
+  z-index: 20;
+}
+
+/* 🎥 INTRO VIDEO */
+#introVideo {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  pointer-events: none;
 }
 
 /* 🎞️ CENTER INTRO */
 .intro-center {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   text-align: center;
   gap: 12px;
-  position: relative;
-  z-index: 2;
 }
 
 /* 🎞️ TITLE */
@@ -86,9 +101,11 @@ body {
   background: linear-gradient(45deg,#b76e79,#d4af37);
   color: white;
   cursor: pointer;
+  position: relative;
+  z-index: 30;
 }
 
-/* 📸 SLIDESHOW (NO ZOOM EFFECT) */
+/* 📸 SLIDESHOW (NO ZOOM) */
 .slideshow {
   position: relative;
   width: 100%;
@@ -104,23 +121,14 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-
   top: 0;
   left: 0;
-
   opacity: 0;
   transition: opacity 1s ease;
 }
 
 .slide.active {
   opacity: 1;
-}
-
-/* ⏳ COUNTDOWN */
-#countdown {
-  margin-top: 10px;
-  font-family: monospace;
-  color: #d4af37;
 }
 
 /* 🎙️ TEXT */
@@ -131,13 +139,11 @@ body {
   margin-top: 10px;
 }
 
-/* 🎬 INTRO VIDEO */
-#introVideo {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  pointer-events: none; /* 👈 THIS FIXES BUTTON CLICK ISSUE */
+/* ⏳ COUNTDOWN */
+#countdown {
+  margin-top: 10px;
+  font-family: monospace;
+  color: #d4af37;
 }
 </style>
 </head>
@@ -146,28 +152,27 @@ body {
 
 <div class="bg"></div>
 
-<!-- 🎬 INTRO VIDEO -->
+<!-- 🎬 INTRO -->
 <div class="scene active" id="sceneintro">
+
   <video id="introVideo" muted playsinline>
     <source src="prenup.mp4" type="video/mp4">
   </video>
 
-  <div style="position:absolute; z-index:2;">
-    <div class="intro-center">
-      <div class="title">Kish & Glydel</div>
+  <div class="intro-center">
+    <div class="title">Kish & Glydel</div>
 
-      <div class="narration">
-        Choose how you want to experience our wedding film:
-      </div>
-
-      <button class="btn" onclick="startExperience('romantic')">💖 Romantic Story</button>
-      <button class="btn" onclick="startExperience('cinematic')">🎬 Cinematic Documentary</button>
-      <button class="btn" onclick="startExperience('fast')">⚡ Skip to Wedding Day</button>
+    <div class="narration">
+      Choose how you want to experience our wedding film:
     </div>
+
+    <button class="btn" onclick="startExperience('romantic')">💖 Romantic Story</button>
+    <button class="btn" onclick="startExperience('cinematic')">🎬 Cinematic Documentary</button>
+    <button class="btn" onclick="startExperience('fast')">⚡ Skip to Wedding Day</button>
   </div>
 </div>
 
-<!-- 💍 SCENE 2 -->
+<!-- 💍 SCENES -->
 <div class="scene" id="scene2">
   <div class="card">
     <h2>Episode 1: The Beginning</h2>
@@ -184,7 +189,6 @@ body {
   </div>
 </div>
 
-<!-- 🎬 SCENE 3 -->
 <div class="scene" id="scene3">
   <div class="card">
     <h2>Episode 2: The Journey</h2>
@@ -199,7 +203,6 @@ body {
   </div>
 </div>
 
-<!-- ⏳ SCENE 4 -->
 <div class="scene" id="scene4">
   <div class="card">
     <h2>Forever Begins</h2>
@@ -219,7 +222,6 @@ body {
   </div>
 </div>
 
-<!-- 📍 VENUE -->
 <div class="scene" id="scene5">
   <div class="card">
     <h2>📍 Venue</h2>
@@ -232,10 +234,10 @@ body {
   </div>
 </div>
 
-<!-- 💍 END -->
 <div class="scene" id="scene6">
   <div class="card">
     <h2>Final Chapter</h2>
+
     <div class="narration">
       Thank you for being part of our story.<br><br>
       — Kish & Glydel
@@ -250,7 +252,7 @@ function go(scene){
   document.getElementById("scene"+scene).classList.add("active");
 }
 
-/* 🎬 INTRO FLOW */
+/* 🎬 FIXED INTRO FLOW */
 function startExperience(type){
   const video = document.getElementById("introVideo");
 
@@ -297,7 +299,6 @@ setInterval(()=>{
 
 },1000);
 
-/* START SLIDES */
 window.onload = startSlides;
 
 </script>
