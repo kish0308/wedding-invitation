@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kish & Glydel | Wedding Film</title>
+<title>Kish & Glydel | Interactive Wedding Film</title>
 
 <style>
 body {
@@ -29,47 +29,41 @@ body {
   width: 100%;
   height: 100%;
   opacity: 0;
+  transform: scale(1.08);
+  filter: blur(12px);
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: 1s ease;
+  flex-direction: column;
+  text-align: center;
+  transition: all 1.2s ease;
   pointer-events: none;
 }
 
 .scene.active {
   opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
   pointer-events: all;
 }
 
-/* 🔥 IMPORTANT FIX: allow interaction */
-#sceneintro {
-  z-index: 10;
-  pointer-events: auto;
-}
-
-/* 🎥 VIDEO LAYER */
-#introVideo {
+/* 🎥 VIDEO FIX */
+video {
   position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
   z-index: 0;
-  pointer-events: none;
+  pointer-events: none; /* 🔥 IMPORTANT FIX */
 }
 
-/* 🎯 OVERLAY FIX LAYER */
-.intro-layer {
+/* 🎯 INTRO UI LAYER FIX */
+.intro-ui {
   position: absolute;
   width: 100%;
   height: 100%;
-  z-index: 2;
-}
+  z-index: 10;
 
-/* 🎞️ CENTER INTRO */
-.intro-center {
-  position: relative;
-  z-index: 999;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -88,9 +82,8 @@ body {
 
 /* 🪶 CARD */
 .card {
-  width: 340px;
+  max-width: 340px;
   padding: 22px;
-  text-align: center;
   background: rgba(255,255,255,0.06);
   border-radius: 18px;
   backdrop-filter: blur(14px);
@@ -100,7 +93,7 @@ body {
   align-items: center;
 }
 
-/* 🎬 BUTTON (FIXED CLICK LAYER) */
+/* 🎬 BUTTON FIX */
 .btn {
   margin-top: 12px;
   padding: 12px 18px;
@@ -109,49 +102,54 @@ body {
   background: linear-gradient(45deg,#b76e79,#d4af37);
   color: white;
   cursor: pointer;
+
   position: relative;
-  z-index: 9999;
+  z-index: 20;
+  touch-action: manipulation;
 }
 
-/* 📸 SLIDESHOW */
-.slideshow {
-  position: relative;
-  width: 100%;
-  max-width: 300px;
-  height: 220px;
-  margin: 12px auto;
-  overflow: hidden;
-  border-radius: 14px;
-}
-
-.slide {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  transition: opacity 1s ease;
-}
-
-.slide.active {
-  opacity: 1;
+/* 📸 IMAGE */
+.story-img {
+  width: 85%;
+  max-width: 320px;
+  border-radius: 16px;
+  margin-top: 15px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.7);
 }
 
 /* 🎙️ TEXT */
 .narration {
   max-width: 320px;
   font-size: 16px;
+  line-height: 1.6;
   opacity: 0.85;
-  margin-top: 10px;
+  margin-top: 15px;
+}
+
+/* 🌌 PARTICLES */
+.particle {
+  position: fixed;
+  width: 3px;
+  height: 3px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 50%;
+  animation: float 10s linear infinite;
+}
+
+@keyframes float {
+  from { transform: translateY(100vh); }
+  to { transform: translateY(-10vh); }
 }
 
 /* ⏳ COUNTDOWN */
 #countdown {
-  margin-top: 10px;
+  margin-top: 15px;
+  font-size: 18px;
   font-family: monospace;
   color: #d4af37;
+  background: rgba(0,0,0,0.3);
+  padding: 10px;
+  border-radius: 10px;
 }
 </style>
 </head>
@@ -160,25 +158,37 @@ body {
 
 <div class="bg"></div>
 
-<!-- 🎬 INTRO -->
+<!-- 🌌 PARTICLES -->
+<script>
+for(let i=0;i<25;i++){
+  let p=document.createElement("div");
+  p.className="particle";
+  p.style.left=Math.random()*100+"vw";
+  p.style.animationDuration=(6+Math.random()*8)+"s";
+  document.body.appendChild(p);
+}
+</script>
+
+<!-- 🎥 INTRO -->
 <div class="scene active" id="sceneintro">
 
   <video id="introVideo" muted playsinline>
     <source src="prenup.mp4" type="video/mp4">
   </video>
 
-  <div class="intro-layer"></div>
+  <!-- 🔥 FIXED CLICK LAYER -->
+  <div class="intro-ui">
 
-  <div class="intro-center">
     <div class="title">Kish & Glydel</div>
 
     <div class="narration">
       Choose how you want to experience our wedding film:
     </div>
 
-    <button class="btn" onclick="startExperience('romantic')">💖 Romantic Story</button>
-    <button class="btn" onclick="startExperience('cinematic')">🎬 Cinematic Documentary</button>
-    <button class="btn" onclick="startExperience('fast')">⚡ Skip to Wedding Day</button>
+    <button class="btn" onclick="choosePath('romantic')">💖 Romantic Story</button>
+    <button class="btn" onclick="choosePath('cinematic')">🎬 Cinematic Documentary</button>
+    <button class="btn" onclick="choosePath('fast')">⚡ Skip to Wedding Day</button>
+
   </div>
 </div>
 
@@ -186,14 +196,7 @@ body {
 <div class="scene" id="scene2">
   <div class="card">
     <h2>Episode 1: The Beginning</h2>
-
-    <div class="slideshow">
-      <img class="slide active" src="photo1.jpg">
-      <img class="slide" src="photo2.jpg">
-      <img class="slide" src="photo3.jpg">
-      <img class="slide" src="photo4.jpg">
-    </div>
-
+    <img class="story-img" src="photo1.jpg">
     <div class="narration">Two souls crossed paths unexpectedly…</div>
     <button class="btn" onclick="go('3')">Continue</button>
   </div>
@@ -202,13 +205,7 @@ body {
 <div class="scene" id="scene3">
   <div class="card">
     <h2>Episode 2: The Journey</h2>
-
-    <div class="slideshow">
-      <img class="slide active" src="photo5.jpg">
-      <img class="slide" src="photo6.jpg">
-      <img class="slide" src="photo7.jpg">
-    </div>
-
+    <img class="story-img" src="photo2.jpg">
     <button class="btn" onclick="go('4')">Wedding Day</button>
   </div>
 </div>
@@ -216,17 +213,8 @@ body {
 <div class="scene" id="scene4">
   <div class="card">
     <h2>Forever Begins</h2>
-
-    <div class="slideshow">
-      <img class="slide active" src="photo8.jpg">
-      <img class="slide" src="photo9.jpg">
-      <img class="slide" src="photo10.jpg">
-    </div>
-
-    <div class="narration">
-      May 09, 2026 — A moment forever remembered.
-    </div>
-
+    <img class="story-img" src="photo3.jpg">
+    <div class="narration">May 09, 2026 — A moment forever remembered.</div>
     <div id="countdown">Loading...</div>
     <button class="btn" onclick="go('5')">Venue</button>
   </div>
@@ -247,7 +235,6 @@ body {
 <div class="scene" id="scene6">
   <div class="card">
     <h2>Final Chapter</h2>
-
     <div class="narration">
       Thank you for being part of our story.<br><br>
       — Kish & Glydel
@@ -262,8 +249,9 @@ function go(scene){
   document.getElementById("scene"+scene).classList.add("active");
 }
 
-/* 🎬 INTRO FIXED */
-function startExperience(type){
+/* 🎬 FIXED INTRO FUNCTION */
+function choosePath(type){
+
   const video = document.getElementById("introVideo");
 
   video.play().catch(()=>{});
@@ -271,20 +259,8 @@ function startExperience(type){
   video.onended = () => {
     go(2);
   };
-}
 
-/* 🎞️ SLIDESHOW */
-function startSlides(){
-  document.querySelectorAll(".slideshow").forEach(show=>{
-    let slides = show.querySelectorAll(".slide");
-    let i = 0;
-
-    setInterval(()=>{
-      slides[i].classList.remove("active");
-      i = (i + 1) % slides.length;
-      slides[i].classList.add("active");
-    }, 3000);
-  });
+  if(type === "fast") go(4);
 }
 
 /* ⏳ COUNTDOWN */
@@ -308,8 +284,6 @@ setInterval(()=>{
     `${d}d ${h}h ${m}m ${s}s`;
 
 },1000);
-
-window.onload = startSlides;
 
 </script>
 
