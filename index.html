@@ -17,17 +17,15 @@ body {
 /* 🌌 BACKGROUND */
 .bg {
   position: fixed;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: radial-gradient(circle at center, #0d0d0d, #000);
-  z-index: -3;
+  z-index: -10;
 }
 
 /* 🎬 SCENES */
 .scene {
   position: fixed;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   opacity: 0;
   display: flex;
   justify-content: center;
@@ -41,32 +39,32 @@ body {
   pointer-events: all;
 }
 
-/* 🔥 INTRO FIX LAYERS */
+/* 🔥 INTRO SAFE ZONE */
 #sceneintro {
-  z-index: 999;
-  position: fixed;
+  z-index: 9999;
 }
 
-/* 🎥 VIDEO LAYER (NEVER BLOCKS CLICKS) */
-.intro-video-layer {
-  position: absolute;
+/* 🎥 VIDEO LAYER (NEVER BLOCKS INPUT) */
+.video-bg {
+  position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
 }
 
-#introVideo {
+.video-bg video {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* 🎯 UI LAYER */
-.intro-ui {
+/* 🧠 UI LAYER */
+.ui-layer {
   position: relative;
   z-index: 10;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   text-align: center;
   gap: 12px;
@@ -94,7 +92,7 @@ body {
   align-items: center;
 }
 
-/* 🎬 BUTTON */
+/* 🔘 BUTTON */
 .btn {
   margin-top: 12px;
   padding: 12px 18px;
@@ -103,9 +101,9 @@ body {
   background: linear-gradient(45deg,#b76e79,#d4af37);
   color: white;
   cursor: pointer;
-  position: relative;
-  z-index: 20;
   pointer-events: auto;
+  position: relative;
+  z-index: 99999;
 }
 
 /* 📸 SLIDESHOW */
@@ -158,13 +156,13 @@ body {
 <!-- 🎬 INTRO -->
 <div class="scene active" id="sceneintro">
 
-  <div class="intro-video-layer">
+  <div class="video-bg">
     <video id="introVideo" muted playsinline>
       <source src="prenup.mp4" type="video/mp4">
     </video>
   </div>
 
-  <div class="intro-ui">
+  <div class="ui-layer">
     <div class="title">Kish & Glydel</div>
 
     <div class="narration">
@@ -258,7 +256,7 @@ function go(scene){
   document.getElementById("scene"+scene).classList.add("active");
 }
 
-/* 🎬 INTRO FIX (100% RELIABLE) */
+/* 🎬 INTRO (100% STABLE) */
 function startExperience(type){
   const video = document.getElementById("introVideo");
 
@@ -273,7 +271,7 @@ function startExperience(type){
     } else {
       go(2);
     }
-  }, 2000);
+  }, 1500);
 
   video.onended = () => {
     if(type === "fast"){
@@ -320,7 +318,7 @@ setInterval(()=>{
 
 },1000);
 
-/* START SLIDES */
+/* INIT */
 window.onload = startSlides;
 
 </script>
