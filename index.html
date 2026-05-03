@@ -3,110 +3,137 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kish & Glydel | Wedding Story</title>
+<title>Kish & Glydel | Wedding Film</title>
 
 <style>
-body {
-  margin: 0;
-  background: #f5efe6;
-  color: #4a3f35;
-  font-family: 'Georgia', serif;
-  overflow: hidden;
+body{
+  margin:0;
+  background:#f5efe6;
+  font-family:'Georgia',serif;
+  color:#4a3f35;
+  overflow:hidden;
 }
 
-/* 🌿 WOOD BACKGROUND */
-.bg {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(rgba(245,239,230,0.9), rgba(245,239,230,0.9)),
-              url('wood.jpg');
-  background-size: cover;
-  z-index: -3;
+/* 🌿 BACKGROUND */
+.bg{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:
+    linear-gradient(rgba(245,239,230,0.85),rgba(245,239,230,0.9)),
+    url('wood.jpg');
+  background-size:cover;
+  z-index:-3;
 }
 
-/* 🎬 SCENES */
-.scene {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transform: scale(1.05);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  text-align: center;
-  transition: all 1s ease;
+/* 🍃 FALLING LEAVES */
+.leaf{
+  position:fixed;
+  width:18px;
+  height:18px;
+  background:url('leaf.png');
+  background-size:cover;
+  opacity:0.6;
+  animation:fall linear infinite;
+}
+@keyframes fall{
+  0%{transform:translateY(-10vh) rotate(0deg);}
+  100%{transform:translateY(110vh) rotate(360deg);}
 }
 
-.scene.active {
-  opacity: 1;
-  transform: scale(1);
+/* 🎬 SCENE */
+.scene{
+  position:fixed;
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  text-align:center;
+  opacity:0;
+  transition:1s;
 }
+.scene.active{opacity:1}
 
 /* 🎞️ TITLE */
-.title {
-  font-size: 42px;
-  color: #8b5e3c;
-}
-
-/* 📜 TEXT */
-.narration {
-  max-width: 320px;
-  font-size: 16px;
-  margin-top: 10px;
+.title{
+  font-size:46px;
+  color:#8b5e3c;
+  letter-spacing:2px;
 }
 
 /* 🪵 CARD */
-.card {
-  max-width: 360px;
-  padding: 20px;
-  background: rgba(255,255,255,0.85);
-  border-radius: 14px;
-  border: 2px solid #d2b48c;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+.card{
+  background:rgba(255,255,255,0.85);
+  padding:20px;
+  border-radius:14px;
+  border:2px solid #d2b48c;
+  box-shadow:0 15px 40px rgba(0,0,0,0.2);
 }
 
-/* 🖼️ FRAME STYLE */
-.frame {
-  background: #fff;
-  padding: 8px;
-  border: 8px solid #c8a97e;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-  margin: 8px;
+/* 📸 POLAROID */
+.polaroid{
+  width:130px;
+  background:white;
+  padding:8px;
+  margin:10px;
+  box-shadow:0 10px 20px rgba(0,0,0,0.3);
+  transform:rotate(-2deg);
+  animation:float 6s ease-in-out infinite;
+}
+.polaroid:nth-child(2){transform:rotate(3deg)}
+.polaroid img{width:100%}
+
+@keyframes float{
+  0%,100%{transform:translateY(0) rotate(-2deg)}
+  50%{transform:translateY(-10px) rotate(2deg)}
 }
 
-.frame img {
-  width: 100%;
-  display: block;
-  border-radius: 6px;
+/* 🎞️ SLIDER */
+.slider{
+  position:relative;
+  width:260px;
+  height:180px;
+  overflow:hidden;
+  border-radius:10px;
 }
+.slide{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  animation:slideShow 18s infinite;
+}
+.slide:nth-child(1){animation-delay:0s}
+.slide:nth-child(2){animation-delay:6s}
+.slide:nth-child(3){animation-delay:12s}
 
-/* 📸 GALLERY */
-.gallery {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: center;
+@keyframes slideShow{
+  0%{opacity:0; transform:scale(1)}
+  10%{opacity:1}
+  40%{opacity:1; transform:scale(1.1)}
+  60%{opacity:0}
+  100%{opacity:0}
 }
 
 /* 🎬 BUTTON */
-.btn {
-  margin-top: 12px;
-  padding: 10px 18px;
-  border: none;
-  border-radius: 8px;
-  background: #8b5e3c;
-  color: white;
-  cursor: pointer;
+.btn{
+  margin-top:12px;
+  padding:10px 18px;
+  border:none;
+  border-radius:8px;
+  background:#8b5e3c;
+  color:white;
+  cursor:pointer;
 }
 
 /* ⏳ COUNTDOWN */
-#countdown {
-  margin-top: 10px;
-  font-size: 18px;
-  color: #8b5e3c;
+#countdown{
+  margin-top:10px;
+  font-size:18px;
 }
 </style>
 </head>
@@ -115,143 +142,118 @@ body {
 
 <div class="bg"></div>
 
-<!-- 🎥 INTRO -->
+<!-- 🍃 LEAVES SCRIPT -->
+<script>
+for(let i=0;i<15;i++){
+  let l=document.createElement("div");
+  l.className="leaf";
+  l.style.left=Math.random()*100+"vw";
+  l.style.animationDuration=(6+Math.random()*8)+"s";
+  document.body.appendChild(l);
+}
+</script>
+
+<!-- 🎵 MUSIC -->
+<audio id="music" src="prenup.mp3"></audio>
+
+<!-- 🎬 INTRO -->
 <div class="scene active" id="sceneintro">
   <div class="title">Kish & Glydel</div>
-
-  <div class="narration">
-    A love story written in time 🌿
-  </div>
-
-  <button class="btn" onclick="go('2')">Start Story</button>
+  <p>A love story written in time 🌿</p>
+  <button class="btn" onclick="start()">Enter</button>
 </div>
 
-<!-- 💍 SCENE 2 -->
+<!-- 💍 STORY -->
 <div class="scene" id="scene2">
   <div class="card">
     <h2>The Beginning</h2>
 
-    <div class="gallery">
-      <div class="frame"><img src="photo1.jpg"></div>
-      <div class="frame"><img src="photo2.jpg"></div>
+    <div style="display:flex;">
+      <div class="polaroid"><img src="photo1.jpg"></div>
+      <div class="polaroid"><img src="photo2.jpg"></div>
     </div>
 
-    <div class="narration">
-      Two souls crossed paths unexpectedly…
-    </div>
-
-    <button class="btn" onclick="go('3')">Continue</button>
+    <button class="btn" onclick="go(3)">Continue</button>
   </div>
 </div>
 
-<!-- 💞 SCENE 3 -->
+<!-- 🎞️ SLIDER SCENE -->
 <div class="scene" id="scene3">
   <div class="card">
     <h2>The Journey</h2>
 
-    <div class="gallery">
-      <div class="frame"><img src="photo3.jpg"></div>
-      <div class="frame"><img src="photo4.jpg"></div>
+    <div class="slider">
+      <div class="slide" style="background-image:url('photo3.jpg')"></div>
+      <div class="slide" style="background-image:url('photo4.jpg')"></div>
+      <div class="slide" style="background-image:url('photo5.jpg')"></div>
     </div>
 
-    <div class="narration">
-      Through laughter, challenges, and dreams…
-    </div>
-
-    <button class="btn" onclick="go('4')">Wedding Day</button>
-  </div>
-</div>
-
-<!-- 🎨 ATTIRE -->
-<div class="scene" id="scene4">
-  <div class="card">
-    <h2>Dress Code</h2>
-
-    <div class="frame">
-      <img src="attire.jpg">
-    </div>
-
-    <div class="narration">
-      Beige • Champagne • Ivory • Blush 🌿
-    </div>
-
-    <button class="btn" onclick="go('5')">Continue</button>
+    <button class="btn" onclick="go(4)">Next</button>
   </div>
 </div>
 
 <!-- ⏳ COUNTDOWN -->
-<div class="scene" id="scene5">
+<div class="scene" id="scene4">
   <div class="card">
     <h2>Forever Begins</h2>
-
-    <div class="gallery">
-      <div class="frame"><img src="photo5.jpg"></div>
-      <div class="frame"><img src="photo6.jpg"></div>
-    </div>
-
-    <div class="narration">
-      May 09, 2026
-    </div>
-
     <div id="countdown"></div>
-
-    <button class="btn" onclick="go('6')">Venue</button>
+    <button class="btn" onclick="go(5)">Venue</button>
   </div>
 </div>
 
 <!-- 📍 VENUE -->
-<div class="scene" id="scene6">
+<div class="scene" id="scene5">
   <div class="card">
     <h2>Venue</h2>
-
-    <iframe
-      src="https://www.google.com/maps?q=12.993418,124.037609&z=17&output=embed"
-      width="100%" height="200"></iframe>
-
-    <button class="btn" onclick="go('7')">Final</button>
+    <iframe src="https://www.google.com/maps?q=12.993418,124.037609&z=17&output=embed"
+    width="100%" height="200"></iframe>
+    <button class="btn" onclick="go(6)">End</button>
   </div>
 </div>
 
 <!-- 💍 END -->
-<div class="scene" id="scene7">
+<div class="scene" id="scene6">
   <div class="card">
     <h2>See You There 🌿</h2>
-
-    <div class="narration">
-      Thank you for being part of our story.<br><br>
-      — Kish & Glydel
-    </div>
+    <p>— Kish & Glydel</p>
   </div>
 </div>
 
 <script>
 
-// 🎬 NAVIGATION
-function go(scene){
+// 🎬 START (with music fade)
+function start(){
+  go(2);
+  const m=document.getElementById("music");
+  m.volume=0;
+  m.play().catch(()=>{});
+  let v=0;
+  let fade=setInterval(()=>{
+    if(v<0.6){v+=0.05; m.volume=v;}
+    else clearInterval(fade);
+  },100);
+}
+
+// 🎬 NAV
+function go(n){
   document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
-  document.getElementById("scene"+scene).classList.add("active");
+  document.getElementById("scene"+n).classList.add("active");
 }
 
 // ⏳ COUNTDOWN
-const weddingDate = new Date("May 09, 2026 15:00:00").getTime();
-
+const d=new Date("May 09, 2026 15:00:00").getTime();
 setInterval(()=>{
-  const now = new Date().getTime();
-  const diff = weddingDate - now;
+  let now=new Date().getTime();
+  let diff=d-now;
 
-  if(diff < 0){
-    document.getElementById("countdown").innerHTML = "💍 Wedding Day";
-    return;
-  }
+  if(diff<0){countdown.innerHTML="💍 Wedding Day";return;}
 
-  const d = Math.floor(diff/(1000*60*60*24));
-  const h = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
-  const m = Math.floor((diff%(1000*60*60))/(1000*60));
-  const s = Math.floor((diff%(1000*60))/1000);
+  let days=Math.floor(diff/(1000*60*60*24));
+  let hrs=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+  let min=Math.floor((diff%(1000*60*60))/(1000*60));
+  let sec=Math.floor((diff%(1000*60))/1000);
 
-  document.getElementById("countdown").innerHTML =
-    `${d}d ${h}h ${m}m ${s}s`;
-
+  countdown.innerHTML=`${days}d ${hrs}h ${min}m ${sec}s`;
 },1000);
 
 </script>
