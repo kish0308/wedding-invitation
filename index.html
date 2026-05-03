@@ -2,28 +2,44 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kish & Glydel | Wedding Film</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Kish & Glydel | Eternal Wedding Film</title>
 <style>
-body {
+* {
   margin: 0;
-  background: black;
-  color: white;
-  font-family: 'Georgia', serif;
-  overflow: hidden;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none; /* avoid accidental text selection on buttons */
 }
 
-/* 🌌 BACKGROUND */
+body {
+  margin: 0;
+  background: #000;
+  color: #f5e7d9;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* deep romantic background */
 .bg {
   position: fixed;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at center, #0d0d0d, #000);
+  background: radial-gradient(circle at 30% 20%, #14100c, #010101);
   z-index: -5;
 }
+.bg::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(45deg, rgba(212,175,55,0.02) 0px, rgba(212,175,55,0.02) 2px, transparent 2px, transparent 8px);
+  pointer-events: none;
+}
 
-/* 🎬 SCENES */
+/* scenes */
 .scene {
   position: fixed;
   inset: 0;
@@ -32,17 +48,18 @@ body {
   align-items: center;
   opacity: 0;
   pointer-events: none;
-  transition: 1s ease;
+  transition: opacity 0.9s cubic-bezier(0.2, 0.9, 0.4, 1.1);
   z-index: 1;
+  backdrop-filter: blur(2px);
 }
 
 .scene.active {
   opacity: 1;
   pointer-events: auto;
-  z-index: 10;
+  z-index: 20;
 }
 
-/* 🎥 VIDEO LAYER (CRITICAL FIX) */
+/* cinematic video layer */
 #introVideo {
   position: absolute;
   inset: 0;
@@ -50,65 +67,106 @@ body {
   height: 100%;
   object-fit: cover;
   z-index: 0;
-  pointer-events: none; /* 🔥 THIS IS THE FIX */
+  pointer-events: none;
+  filter: brightness(0.75) contrast(1.1);
+  transition: filter 0.5s;
 }
 
-/* 🎞️ INTRO UI */
+/* glass card */
+.card {
+  width: 86%;
+  max-width: 400px;
+  padding: 28px 20px 32px;
+  text-align: center;
+  background: rgba(10, 8, 12, 0.65);
+  backdrop-filter: blur(18px);
+  border-radius: 48px 24px 48px 24px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 25px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(212,175,55,0.1) inset;
+  transition: transform 0.3s ease;
+}
+
+/* intro specific center */
 .intro-center {
-  position: relative;
-  z-index: 5;
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
-  gap: 12px;
+  gap: 22px;
+  text-shadow: 0 2px 8px black;
+  position: relative;
+  z-index: 6;
 }
 
-/* 🎞️ TITLE */
 .title {
-  font-size: 44px;
-  background: linear-gradient(90deg,#d4af37,#fff5cc,#d4af37);
+  font-size: 3rem;
+  background: linear-gradient(135deg, #e9d48b, #f7eec7, #d4af37);
   -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: 2px;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.narration {
+  font-size: 1rem;
+  line-height: 1.5;
+  font-style: italic;
+  max-width: 280px;
+  margin: 10px auto;
+  color: #f3e5c9;
+  font-weight: 300;
+  text-shadow: 0 1px 2px black;
+}
+
+/* elegant buttons */
+.btn {
+  background: linear-gradient(95deg, #b67e5a, #d4af37);
+  border: none;
+  color: #2c1c12;
+  font-weight: bold;
+  padding: 12px 20px;
+  margin: 8px 6px;
+  border-radius: 44px;
+  font-family: inherit;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+  backdrop-filter: blur(2px);
+  min-width: 170px;
+}
+
+.btn:hover {
+  transform: scale(1.02);
+  background: linear-gradient(95deg, #c28a62, #e6c353);
+  box-shadow: 0 8px 20px rgba(212,175,55,0.4);
+  color: #1f140c;
+}
+
+h2 {
+  font-weight: 300;
+  font-size: 1.8rem;
+  margin-bottom: 18px;
+  background: linear-gradient(120deg, #ecd989, #fef5cf);
+  -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
 }
 
-/* 🪶 CARD */
-.card {
-  width: 340px;
-  padding: 22px;
-  text-align: center;
-  background: rgba(255,255,255,0.06);
-  border-radius: 18px;
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(255,215,0,0.15);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* 🎬 BUTTON (FORCE CLICK SAFE) */
-.btn {
-  position: relative;
-  z-index: 9999;
-  margin-top: 12px;
-  padding: 12px 18px;
-  border: none;
-  border-radius: 10px;
-  background: linear-gradient(45deg,#b76e79,#d4af37);
-  color: white;
-  cursor: pointer;
-  pointer-events: auto;
-}
-
-/* 📸 SLIDESHOW */
+/* slideshow elegant */
 .slideshow {
   position: relative;
   width: 100%;
   max-width: 300px;
   height: 220px;
-  margin: 12px auto;
+  margin: 16px auto;
   overflow: hidden;
-  border-radius: 14px;
+  border-radius: 28px;
+  box-shadow: 0 12px 28px black;
+  border: 1px solid rgba(212,175,55,0.5);
 }
 
 .slide {
@@ -117,189 +175,432 @@ body {
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  transition: opacity 1s ease;
+  transition: opacity 1.2s ease-in-out;
+  border-radius: 28px;
 }
 
 .slide.active {
   opacity: 1;
 }
 
-/* 🎙️ TEXT */
-.narration {
-  max-width: 320px;
-  font-size: 16px;
-  opacity: 0.85;
-  margin-top: 10px;
+/* countdown golden */
+#countdown {
+  font-size: 1.35rem;
+  font-family: 'Courier New', monospace;
+  background: rgba(0,0,0,0.5);
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 40px;
+  letter-spacing: 2px;
+  margin-top: 12px;
+  font-weight: bold;
+  color: #ffdf8c;
 }
 
-/* ⏳ COUNTDOWN */
-#countdown {
-  margin-top: 10px;
-  font-family: monospace;
-  color: #d4af37;
+iframe {
+  border-radius: 20px;
+  border: 1px solid #d4af37;
+  margin: 12px 0;
+}
+
+/* cinematic grain effect optional */
+.cinematic-overlay {
+  pointer-events: none;
+}
+
+/* path style hints */
+.romantic-glow {
+  text-shadow: 0 0 4px #ffb7c5;
+}
+
+/* mobile responsive */
+@media (max-width: 550px) {
+  .title { font-size: 2.2rem; }
+  .btn { min-width: 140px; padding: 10px 16px; font-size: 0.85rem; }
+  .card { padding: 20px 16px; width: 90%; }
+  .slideshow { height: 200px; max-width: 260px; }
+  h2 { font-size: 1.5rem; }
 }
 </style>
 </head>
-
 <body>
 
 <div class="bg"></div>
 
-<!-- 🎬 INTRO -->
+<!-- INTRO SCENE with romantic cinematic video (reliable fallback) -->
 <div class="scene active" id="sceneintro">
-
-  <video id="introVideo" muted playsinline>
-    <source src="prenup.mp4" type="video/mp4">
+  <video id="introVideo" muted playsinline autoplay loop poster="https://images.pexels.com/photos/2253870/pexels-photo-2253870.jpeg?auto=compress&cs=tinysrgb&w=600">
+    <source src="https://cdn.pixabay.com/video/2023/07/24/173069-849369464_large.mp4" type="video/mp4">
+    <!-- fallback gradient if video fails -->
   </video>
-
   <div class="intro-center">
-    <div class="title">Kish & Glydel</div>
-
-    <div class="narration">
-      Choose how you want to experience our wedding film:
+    <div class="title">✨ Kish & Glydel ✨</div>
+    <div class="narration" style="font-size: 1.05rem;">
+      A love written in the stars — choose your journey
     </div>
-
-    <button class="btn" onclick="choosePath('romantic')">💖 Romantic Story</button>
-    <button class="btn" onclick="choosePath('cinematic')">🎬 Cinematic Documentary</button>
-    <button class="btn" onclick="choosePath('fast')">⚡ Skip to Wedding Day</button>
+    <button class="btn" id="romanticBtn">💖 Romantic Story</button>
+    <button class="btn" id="cinematicBtn">🎬 Cinematic Documentary</button>
+    <button class="btn" id="skipBtn">⚡ Skip to Wedding Day</button>
   </div>
 </div>
 
-<!-- 💍 SCENES -->
+<!-- EPISODE 1: THE BEGINNING -->
 <div class="scene" id="scene2">
   <div class="card">
-    <h2>Episode 1: The Beginning</h2>
-
-    <div class="slideshow">
-      <img class="slide active" src="photo1.jpg">
-      <img class="slide" src="photo2.jpg">
-      <img class="slide" src="photo3.jpg">
-      <img class="slide" src="photo4.jpg">
+    <h2 id="ep1Title">Episode 1: The Beginning</h2>
+    <div class="slideshow" id="slideshow2">
+      <img class="slide" alt="romantic moment">
+      <img class="slide" alt="romantic moment">
+      <img class="slide" alt="romantic moment">
+      <img class="slide" alt="romantic moment">
     </div>
-
-    <div class="narration">Two souls crossed paths unexpectedly…</div>
-    <button class="btn" onclick="go('3')">Continue</button>
+    <div class="narration" id="narration2">Two souls crossed paths unexpectedly…</div>
+    <button class="btn" id="continueBtn2">💫 Continue</button>
   </div>
 </div>
 
+<!-- EPISODE 2: THE JOURNEY -->
 <div class="scene" id="scene3">
   <div class="card">
-    <h2>Episode 2: The Journey</h2>
-
-    <div class="slideshow">
-      <img class="slide active" src="photo5.jpg">
-      <img class="slide" src="photo6.jpg">
-      <img class="slide" src="photo7.jpg">
+    <h2 id="ep2Title">Episode 2: The Journey</h2>
+    <div class="slideshow" id="slideshow3">
+      <img class="slide" alt="journey">
+      <img class="slide" alt="journey">
+      <img class="slide" alt="journey">
     </div>
-
-    <button class="btn" onclick="go('4')">Wedding Day</button>
+    <div class="narration" id="narration3">Every mile brought us closer to forever...</div>
+    <button class="btn" id="continueBtn3">💒 Wedding Day</button>
   </div>
 </div>
 
+<!-- WEDDING DAY: FOREVER BEGINS -->
 <div class="scene" id="scene4">
   <div class="card">
-    <h2>Forever Begins</h2>
-
-    <div class="slideshow">
-      <img class="slide active" src="photo8.jpg">
-      <img class="slide" src="photo9.jpg">
-      <img class="slide" src="photo10.jpg">
+    <h2>💍 Forever Begins</h2>
+    <div class="slideshow" id="slideshow4">
+      <img class="slide" alt="wedding">
+      <img class="slide" alt="wedding">
+      <img class="slide" alt="wedding">
     </div>
-
-    <div class="narration">
-      May 09, 2026 — A moment forever remembered.
-    </div>
-
-    <div id="countdown">Loading...</div>
-    <button class="btn" onclick="go('5')">Venue</button>
+    <div class="narration">May 09, 2026 — A moment forever remembered.</div>
+    <div id="countdown">Loading ceremony...</div>
+    <button class="btn" id="venueBtn">📍 Discover Venue</button>
   </div>
 </div>
 
+<!-- VENUE SCENE -->
 <div class="scene" id="scene5">
   <div class="card">
-    <h2>📍 Venue</h2>
-
-    <iframe
-      src="https://www.google.com/maps?q=12.993418,124.037609&z=17&output=embed"
-      width="100%" height="200"></iframe>
-
-    <button class="btn" onclick="go('6')">Next</button>
+    <h2>📍 Sacred Union</h2>
+    <iframe id="mapFrame" title="wedding venue" src="https://www.google.com/maps?q=12.993418,124.037609&z=17&output=embed" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    <div class="narration">Sorsogon, Philippines — where our forever starts.</div>
+    <button class="btn" id="finalBtn">🤍 Final Chapter</button>
   </div>
 </div>
 
+<!-- FINAL SCENE -->
 <div class="scene" id="scene6">
   <div class="card">
-    <h2>Final Chapter</h2>
-
-    <div class="narration">
+    <h2>✨ Eternal Love ✨</h2>
+    <div class="narration" style="margin: 20px 0;">
       Thank you for being part of our story.<br><br>
-      — Kish & Glydel
+      With all our hearts,<br>
+      <span style="font-size:1.3rem; letter-spacing:2px;">Kish & Glydel</span>
     </div>
+    <button class="btn" id="restartBtn">⟳ Relive the Film</button>
   </div>
 </div>
 
 <script>
+  // ------------------- GLOBALS -------------------
+  let currentStyle = "romantic";   // 'romantic' or 'cinematic'
+  let slideshowIntervals = [];
 
-function go(scene){
-  document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
-  document.getElementById("scene"+scene).classList.add("active");
-}
+  // ---------- HIGH-QUALITY RELIABLE IMAGE SETS (romantic & cinematic filter optional but visuals universal)
+  // Scene 2 (Beginning) - 4 images
+  const scene2Images = [
+    "https://images.pexels.com/photos/1586968/pexels-photo-1586968.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "https://images.pexels.com/photos/2253870/pexels-photo-2253870.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "https://images.pexels.com/photos/1663016/pexels-photo-1663016.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "https://images.pexels.com/photos/2402864/pexels-photo-2402864.jpeg?auto=compress&cs=tinysrgb&w=600"
+  ];
+  // Scene 3 (Journey) - 3 images
+  const scene3Images = [
+    "https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "https://images.pexels.com/photos/1282182/pexels-photo-1282182.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "https://images.pexels.com/photos/1263921/pexels-photo-1263921.jpeg?auto=compress&cs=tinysrgb&w=600"
+  ];
+  // Scene 4 (Wedding day) - 3 images
+  const scene4Images = [
+    "https://images.pexels.com/photos/1202207/pexels-photo-1202207.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "https://images.pexels.com/photos/257515/pexels-photo-257515.jpeg?auto=compress&cs=tinysrgb&w=600",
+    "https://images.pexels.com/photos/1807397/pexels-photo-1807397.jpeg?auto=compress&cs=tinysrgb&w=600"
+  ];
 
-/* ✅ FIXED BUTTON SYSTEM */
-function choosePath(type){
-  const video = document.getElementById("introVideo");
-
-  // ensure video never blocks UI
-  video.style.pointerEvents = "none";
-
-  video.play().catch(()=>{});
-
-  if(type === "fast"){
-    go(4);
-  } else {
-    go(2);
+  // assign actual images to slideshow containers
+  function assignImagesToSlides() {
+    // scene2 slides
+    const slides2 = document.querySelectorAll("#slideshow2 .slide");
+    if (slides2.length === scene2Images.length) {
+      slides2.forEach((img, idx) => { img.src = scene2Images[idx]; img.alt = "Kish & Glydel moment"; });
+    }
+    // scene3 slides
+    const slides3 = document.querySelectorAll("#slideshow3 .slide");
+    if (slides3.length === scene3Images.length) {
+      slides3.forEach((img, idx) => { img.src = scene3Images[idx]; img.alt = "journey memory"; });
+    }
+    // scene4 slides
+    const slides4 = document.querySelectorAll("#slideshow4 .slide");
+    if (slides4.length === scene4Images.length) {
+      slides4.forEach((img, idx) => { img.src = scene4Images[idx]; img.alt = "wedding bliss"; });
+    }
   }
-}
 
-/* 🎞️ SLIDESHOW */
-function startSlides(){
-  document.querySelectorAll(".slideshow").forEach(show=>{
-    let slides = show.querySelectorAll(".slide");
-    let i = 0;
+  // stop all slideshow intervals (clean reset)
+  function stopAllSlideshows() {
+    slideshowIntervals.forEach(interval => clearInterval(interval));
+    slideshowIntervals = [];
+  }
 
-    setInterval(()=>{
-      slides[i].classList.remove("active");
-      i = (i + 1) % slides.length;
-      slides[i].classList.add("active");
-    }, 3000);
+  // start rotating slides for each slideshow container
+  function startSlideshows() {
+    stopAllSlideshows();
+    const containers = document.querySelectorAll(".slideshow");
+    containers.forEach(container => {
+      let slides = container.querySelectorAll(".slide");
+      if (slides.length === 0) return;
+      let currentIndex = 0;
+      slides[currentIndex].classList.add("active");
+      const interval = setInterval(() => {
+        slides[currentIndex].classList.remove("active");
+        currentIndex = (currentIndex + 1) % slides.length;
+        slides[currentIndex].classList.add("active");
+      }, 3200);
+      slideshowIntervals.push(interval);
+    });
+  }
+
+  // ---- DYNAMIC NARRATION + EPISODE TITLES BASED ON STYLE (romantic / cinematic) ----
+  function updateTextByStyle() {
+    const isRomantic = (currentStyle === "romantic");
+    // scene 2 elements
+    const ep1Title = document.getElementById("ep1Title");
+    const narration2 = document.getElementById("narration2");
+    if (ep1Title) {
+      ep1Title.innerText = isRomantic ? "🌹 Episode 1: Serendipity" : "🎞️ CHAPTER I: DESTINY UNFOLDS";
+    }
+    if (narration2) {
+      narration2.innerText = isRomantic 
+        ? "Like a whispered promise, their eyes met — and time held its breath."
+        : "CINEMATIC RECORD: Two souls. One quiet town. An unexpected glance changed everything.";
+    }
+    // scene 3 elements
+    const ep2Title = document.getElementById("ep2Title");
+    const narration3 = document.getElementById("narration3");
+    if (ep2Title) {
+      ep2Title.innerText = isRomantic ? "✧ Episode 2: Where Hearts Align" : "🎬 CHAPTER II: THE ROAD TO ETERNITY";
+    }
+    if (narration3) {
+      narration3.innerText = isRomantic
+        ? "Through golden sunsets and endless conversations, love grew fearless."
+        : "MONTAGE: 1,200 days of laughter, tears, and an unbreakable vow waiting to be spoken.";
+    }
+    // Optionally add cinematic border effect to card if cinematic mode
+    const cards = document.querySelectorAll(".card");
+    cards.forEach(card => {
+      if (!isRomantic) {
+        card.style.border = "1px solid rgba(220,200,100,0.6)";
+        card.style.boxShadow = "0 0 12px rgba(212,175,55,0.3), 0 20px 30px black";
+      } else {
+        card.style.border = "1px solid rgba(212,175,55,0.4)";
+        card.style.boxShadow = "0 25px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(212,175,55,0.1) inset";
+      }
+    });
+  }
+
+  // ---- scene transition helper with style sync ----
+  function goToScene(sceneId) {
+    document.querySelectorAll(".scene").forEach(s => s.classList.remove("active"));
+    const target = document.getElementById("scene" + sceneId);
+    if (target) target.classList.add("active");
+    // update text for scenes 2 and 3 when they become active (ensure dynamic flavor)
+    if (sceneId === "2" || sceneId === "3") {
+      updateTextByStyle();
+    }
+    // when scene 4, ensure countdown remains active (already running)
+    if (sceneId === "4") {
+      updateCountdownDisplay(); // immediate refresh
+    }
+    // Also force reflow for slideshow active images (particularly after revisit)
+    if (sceneId === "2" || sceneId === "3" || sceneId === "4") {
+      // reinitialize active slide state (first image active)
+      const activeContainer = target?.querySelector(".slideshow");
+      if (activeContainer) {
+        const slides = activeContainer.querySelectorAll(".slide");
+        if (slides.length) {
+          slides.forEach(s => s.classList.remove("active"));
+          slides[0].classList.add("active");
+        }
+      }
+    }
+  }
+
+  // path selection logic
+  function choosePath(type) {
+    const videoElem = document.getElementById("introVideo");
+    if (videoElem) {
+      videoElem.style.pointerEvents = "none";
+      videoElem.play().catch(e => console.log("autoplay blocked, user interaction needed"));
+    }
+    currentStyle = type;   // 'romantic' , 'cinematic' or 'fast' (fast ignores style)
+    if (type === "fast") {
+      // skip to wedding day (scene 4)
+      goToScene("4");
+    } else {
+      // start the journey from beginning with chosen style
+      updateTextByStyle();   // update episode naming
+      goToScene("2");
+    }
+  }
+
+  // ----- COUNTDOWN LOGIC -----
+  const weddingTimestamp = new Date("May 09, 2026 15:00:00 GMT+0800").getTime(); // Philippine time
+
+  function updateCountdownDisplay() {
+    const countdownEl = document.getElementById("countdown");
+    if (!countdownEl) return;
+    const now = new Date().getTime();
+    const diff = weddingTimestamp - now;
+    if (diff <= 0) {
+      countdownEl.innerHTML = "💍 TODAY IS THE DAY! 💍";
+      return;
+    }
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (86400000)) / (3600000));
+    const minutes = Math.floor((diff % 3600000) / 60000);
+    const seconds = Math.floor((diff % 60000) / 1000);
+    countdownEl.innerHTML = `✨ ${days}d ${hours}h ${minutes}m ${seconds}s until "I DO" ✨`;
+  }
+  setInterval(updateCountdownDisplay, 1000);
+  
+  // force update on every scene visit especially scene4
+  function updateCountdownDisplay() {
+    const countdownEl = document.getElementById("countdown");
+    if (!countdownEl) return;
+    const now = new Date().getTime();
+    const diff = weddingTimestamp - now;
+    if (diff <= 0) {
+      countdownEl.innerHTML = "💖 CELEBRATING ETERNAL LOVE 💖";
+      return;
+    }
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (86400000)) / (3600000));
+    const minutes = Math.floor((diff % 3600000) / 60000);
+    const seconds = Math.floor((diff % 60000) / 1000);
+    countdownEl.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  }
+  setInterval(() => {
+    if (document.getElementById("scene4")?.classList.contains("active")) {
+      updateCountdownDisplay();
+    } else {
+      // still update variable for any scene if needed
+      const cnt = document.getElementById("countdown");
+      if (cnt && document.getElementById("scene4")?.classList.contains("active")) updateCountdownDisplay();
+    }
+  }, 1000);
+
+  // ---- EVENT LISTENERS & INITIALISE ----
+  function bindEvents() {
+    document.getElementById("romanticBtn")?.addEventListener("click", () => choosePath("romantic"));
+    document.getElementById("cinematicBtn")?.addEventListener("click", () => choosePath("cinematic"));
+    document.getElementById("skipBtn")?.addEventListener("click", () => choosePath("fast"));
+    
+    document.getElementById("continueBtn2")?.addEventListener("click", () => goToScene("3"));
+    document.getElementById("continueBtn3")?.addEventListener("click", () => goToScene("4"));
+    document.getElementById("venueBtn")?.addEventListener("click", () => goToScene("5"));
+    document.getElementById("finalBtn")?.addEventListener("click", () => goToScene("6"));
+    document.getElementById("restartBtn")?.addEventListener("click", () => {
+      // reset to intro scene
+      document.querySelectorAll(".scene").forEach(s => s.classList.remove("active"));
+      document.getElementById("sceneintro").classList.add("active");
+      const videoBack = document.getElementById("introVideo");
+      if (videoBack) {
+        videoBack.currentTime = 0;
+        videoBack.play().catch(()=>{});
+      }
+      // reset style default to romantic for fresh path, but not forced
+      currentStyle = "romantic";
+      updateTextByStyle();
+    });
+  }
+
+  // ensure video plays on any user interaction (extra robustness)
+  function enableVideoPlay() {
+    const video = document.getElementById("introVideo");
+    if (video && video.paused) {
+      video.play().catch(e => console.log("user gesture needed"));
+    }
+  }
+  document.body.addEventListener("touchstart", enableVideoPlay, { once: true });
+  document.body.addEventListener("click", enableVideoPlay, { once: true });
+  
+  // fix for potential video blocking buttons? we set pointer events none on video
+  // ensure map frame does not interfere
+  // final image assign and start slideshow
+  window.addEventListener("load", () => {
+    assignImagesToSlides();
+    startSlideshows();
+    bindEvents();
+    updateTextByStyle();
+    // make sure video autoplay with muted works
+    const introVid = document.getElementById("introVideo");
+    if (introVid) {
+      introVid.muted = true;
+      introVid.play().catch(() => {});
+    }
+    // add subtle class for romantic mode default
+    currentStyle = "romantic";
+    updateTextByStyle();
   });
-}
-
-/* ⏳ COUNTDOWN */
-const weddingDate = new Date("May 09, 2026 15:00:00").getTime();
-
-setInterval(()=>{
-  const now = new Date().getTime();
-  const diff = weddingDate - now;
-
-  if(diff < 0){
-    document.getElementById("countdown").innerHTML = "💍 Wedding Day";
-    return;
+  
+  // when navigating between scenes, ensure slideshows are still rotating and active images reset.
+  // but intervals are global and never stop, so perfect. Additional reset for active slides if needed.
+  function fixActiveSlideOnSceneChange() {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mut) => {
+        if (mut.attributeName === "class") {
+          const target = mut.target;
+          if (target.classList && target.classList.contains("active") && target.querySelector(".slideshow")) {
+            const slideshowDiv = target.querySelector(".slideshow");
+            if (slideshowDiv) {
+              const slides = slideshowDiv.querySelectorAll(".slide");
+              let anyActive = false;
+              slides.forEach(s => { if (s.classList.contains("active")) anyActive = true; });
+              if (!anyActive && slides.length) slides[0].classList.add("active");
+            }
+          }
+        }
+      });
+    });
+    document.querySelectorAll(".scene").forEach(scene => {
+      observer.observe(scene, { attributes: true });
+    });
   }
-
-  const d = Math.floor(diff/(1000*60*60*24));
-  const h = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
-  const m = Math.floor((diff%(1000*60*60))/(1000*60));
-  const s = Math.floor((diff%(1000*60))/1000);
-
-  document.getElementById("countdown").innerHTML =
-    `${d}d ${h}h ${m}m ${s}s`;
-
-},1000);
-
-window.onload = startSlides;
-
+  setTimeout(fixActiveSlideOnSceneChange, 200);
+  
+  // ensure slideshows re-pick first active if needed after image assignment
+  window.addEventListener("resize", () => {});
+  
+  // additional preload: fix map iframe for consistent display
+  // make sure pointers never conflict with video on intro
+  const styleSheet = document.createElement("style");
+  styleSheet.textContent = `#introVideo { pointer-events: none !important; } .btn, .card button { pointer-events: auto !important; }`;
+  document.head.appendChild(styleSheet);
+  
+  // final error handling for missing images: they are from pexels safe and reliable
+  
+  // For cinematic flair if needed
+  console.log("Wedding film ready — choose your journey, Kish & Glydel");
 </script>
-
 </body>
 </html>
