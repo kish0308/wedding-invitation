@@ -3,23 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kish & Glydel | Interactive Wedding Film</title>
+<title>Kish & Glydel | Wedding Story</title>
 
 <style>
 body {
   margin: 0;
-  background: black;
-  color: white;
+  background: #f5efe6;
+  color: #4a3f35;
   font-family: 'Georgia', serif;
   overflow: hidden;
 }
 
-/* 🌌 BACKGROUND */
+/* 🌿 WOOD BACKGROUND */
 .bg {
   position: fixed;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at center, #0d0d0d, #000);
+  background: linear-gradient(rgba(245,239,230,0.9), rgba(245,239,230,0.9)),
+              url('wood.jpg');
+  background-size: cover;
   z-index: -3;
 }
 
@@ -29,109 +31,82 @@ body {
   width: 100%;
   height: 100%;
   opacity: 0;
-  transform: scale(1.08);
-  filter: blur(12px);
+  transform: scale(1.05);
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   text-align: center;
-  transition: all 1.2s ease;
-  pointer-events: none;
+  transition: all 1s ease;
 }
 
 .scene.active {
   opacity: 1;
   transform: scale(1);
-  filter: blur(0);
-  pointer-events: all;
-}
-
-/* 🎥 VIDEO */
-video {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 /* 🎞️ TITLE */
 .title {
-  font-size: 44px;
-  background: linear-gradient(90deg,#d4af37,#fff5cc,#d4af37);
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: glow 3s infinite;
+  font-size: 42px;
+  color: #8b5e3c;
 }
 
-@keyframes glow {
-  0%,100% { filter: brightness(1); }
-  50% { filter: brightness(1.4); }
-}
-
-/* 🎙️ TEXT */
+/* 📜 TEXT */
 .narration {
   max-width: 320px;
   font-size: 16px;
-  line-height: 1.6;
-  opacity: 0.85;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
-/* 📸 IMAGE */
-.story-img {
-  width: 85%;
-  max-width: 320px;
-  border-radius: 16px;
-  margin-top: 15px;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.7);
-}
-
-/* 🪶 CARD */
+/* 🪵 CARD */
 .card {
-  max-width: 340px;
-  padding: 22px;
-  background: rgba(255,255,255,0.06);
-  border-radius: 18px;
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(255,215,0,0.15);
+  max-width: 360px;
+  padding: 20px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 14px;
+  border: 2px solid #d2b48c;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* 🖼️ FRAME STYLE */
+.frame {
+  background: #fff;
+  padding: 8px;
+  border: 8px solid #c8a97e;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  margin: 8px;
+}
+
+.frame img {
+  width: 100%;
+  display: block;
+  border-radius: 6px;
+}
+
+/* 📸 GALLERY */
+.gallery {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 /* 🎬 BUTTON */
 .btn {
   margin-top: 12px;
-  padding: 12px 18px;
+  padding: 10px 18px;
   border: none;
-  border-radius: 10px;
-  background: linear-gradient(45deg,#b76e79,#d4af37);
+  border-radius: 8px;
+  background: #8b5e3c;
   color: white;
   cursor: pointer;
 }
 
-/* 🌌 PARTICLES */
-.particle {
-  position: fixed;
-  width: 3px;
-  height: 3px;
-  background: rgba(255,255,255,0.3);
-  border-radius: 50%;
-  animation: float 10s linear infinite;
-}
-
-@keyframes float {
-  from { transform: translateY(100vh); }
-  to { transform: translateY(-10vh); }
-}
-
 /* ⏳ COUNTDOWN */
 #countdown {
-  margin-top: 15px;
+  margin-top: 10px;
   font-size: 18px;
-  font-family: monospace;
-  color: #d4af37;
-  background: rgba(0,0,0,0.3);
-  padding: 10px;
-  border-radius: 10px;
+  color: #8b5e3c;
 }
 </style>
 </head>
@@ -140,126 +115,108 @@ video {
 
 <div class="bg"></div>
 
-<!-- 🎵 EPISODE 1 MUSIC -->
-<audio id="music" preload="auto"></audio>
-
-<!-- 🌌 PARTICLES -->
-<script>
-for(let i=0;i<25;i++){
-  let p=document.createElement("div");
-  p.className="particle";
-  p.style.left=Math.random()*100+"vw";
-  p.style.animationDuration=(6+Math.random()*8)+"s";
-  document.body.appendChild(p);
-}
-</script>
-
 <!-- 🎥 INTRO -->
 <div class="scene active" id="sceneintro">
+  <div class="title">Kish & Glydel</div>
 
-  <video autoplay muted playsinline>
-    <source src="prenup.mp4" type="video/mp4">
-  </video>
-
-  <div style="position:absolute;">
-    <div class="title">Kish & Glydel</div>
-
-    <div class="narration">
-      Choose how you want to experience our wedding film:
-    </div>
-
-    <button class="btn" onclick="choosePath('romantic')">💖 Romantic Story</button>
-    <button class="btn" onclick="choosePath('cinematic')">🎬 Cinematic Documentary</button>
-    <button class="btn" onclick="choosePath('fast')">⚡ Skip to Wedding Day</button>
+  <div class="narration">
+    A love story written in time 🌿
   </div>
+
+  <button class="btn" onclick="go('2')">Start Story</button>
 </div>
 
 <!-- 💍 SCENE 2 -->
 <div class="scene" id="scene2">
   <div class="card">
-    <h2>Episode 1: The Beginning</h2>
-    <img class="story-img" src="photo1.jpg">
+    <h2>The Beginning</h2>
 
-    <div class="narration">Two souls crossed paths unexpectedly…</div>
+    <div class="gallery">
+      <div class="frame"><img src="photo1.jpg"></div>
+      <div class="frame"><img src="photo2.jpg"></div>
+    </div>
+
+    <div class="narration">
+      Two souls crossed paths unexpectedly…
+    </div>
 
     <button class="btn" onclick="go('3')">Continue</button>
-    <button class="btn" onclick="go('3a')">View Attire</button>
   </div>
 </div>
 
-<!-- 🎬 SCENE 3 -->
+<!-- 💞 SCENE 3 -->
 <div class="scene" id="scene3">
   <div class="card">
-    <h2>Episode 2: The Journey</h2>
-    <img class="story-img" src="photo2.jpg">
+    <h2>The Journey</h2>
+
+    <div class="gallery">
+      <div class="frame"><img src="photo3.jpg"></div>
+      <div class="frame"><img src="photo4.jpg"></div>
+    </div>
+
+    <div class="narration">
+      Through laughter, challenges, and dreams…
+    </div>
 
     <button class="btn" onclick="go('4')">Wedding Day</button>
-    <button class="btn" onclick="go('5')">Venue</button>
   </div>
 </div>
 
 <!-- 🎨 ATTIRE -->
-<div class="scene" id="scene3a">
+<div class="scene" id="scene4">
   <div class="card">
-    <h2>🎨 Dress Code</h2>
-    <img class="story-img" src="attire.jpg">
+    <h2>Dress Code</h2>
 
-    <div class="narration">
-      Gold • Champagne • Ivory • Blush Pink<br><br>
-      Gentlemen: Beige suits<br>
-      Ladies: Soft elegant gowns
+    <div class="frame">
+      <img src="attire.jpg">
     </div>
 
-    <button class="btn" onclick="go('4')">Continue</button>
+    <div class="narration">
+      Beige • Champagne • Ivory • Blush 🌿
+    </div>
+
+    <button class="btn" onclick="go('5')">Continue</button>
   </div>
 </div>
 
 <!-- ⏳ COUNTDOWN -->
-<div class="scene" id="scene4">
+<div class="scene" id="scene5">
   <div class="card">
     <h2>Forever Begins</h2>
-    <img class="story-img" src="photo3.jpg">
 
-    <div class="narration">
-      May 09, 2026 — A moment forever remembered.
+    <div class="gallery">
+      <div class="frame"><img src="photo5.jpg"></div>
+      <div class="frame"><img src="photo6.jpg"></div>
     </div>
 
-    <div id="countdown">Loading...</div>
+    <div class="narration">
+      May 09, 2026
+    </div>
 
-    <button class="btn" onclick="go('5')">Venue</button>
+    <div id="countdown"></div>
+
+    <button class="btn" onclick="go('6')">Venue</button>
   </div>
 </div>
 
 <!-- 📍 VENUE -->
-<div class="scene" id="scene5">
+<div class="scene" id="scene6">
   <div class="card">
-    <h2>📍 Venue</h2>
+    <h2>Venue</h2>
 
     <iframe
       src="https://www.google.com/maps?q=12.993418,124.037609&z=17&output=embed"
       width="100%" height="200"></iframe>
 
-    <button class="btn" onclick="go('6')">RSVP</button>
-  </div>
-</div>
-
-<!-- 📩 RSVP -->
-<div class="scene" id="scene6">
-  <div class="card">
-    <h2>RSVP</h2>
-
-    <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSeDr5oDuW-zchdjyluh25x_yBvxEZwGTUcqQTq1S87HJQ5WyA/viewform" target="_blank">
-      Confirm Attendance
-    </a>
-
-    <button class="btn" onclick="go('7')">Final Chapter</button>
+    <button class="btn" onclick="go('7')">Final</button>
   </div>
 </div>
 
 <!-- 💍 END -->
 <div class="scene" id="scene7">
   <div class="card">
-    <h2>Final Chapter</h2>
+    <h2>See You There 🌿</h2>
+
     <div class="narration">
       Thank you for being part of our story.<br><br>
       — Kish & Glydel
@@ -269,40 +226,10 @@ for(let i=0;i<25;i++){
 
 <script>
 
-let path = "";
-
 // 🎬 NAVIGATION
 function go(scene){
   document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
   document.getElementById("scene"+scene).classList.add("active");
-}
-
-// 🎮 CHOICES + 🎵 MUSIC START
-function choosePath(type){
-  path = type;
-
-  playEpisode1Music();
-
-  if(type === "fast") go(4);
-  else go(2);
-}
-
-// 🎵 EPISODE 1 MUSIC
-const music = document.getElementById("music");
-
-function playEpisode1Music(){
-  music.src = "prenup.mp3"; // <-- your uploaded music file
-  music.volume = 0;
-
-  music.play().catch(()=>{});
-
-  let v = 0;
-  const fade = setInterval(()=>{
-    if(v < 0.6){
-      v += 0.05;
-      music.volume = v;
-    } else clearInterval(fade);
-  },100);
 }
 
 // ⏳ COUNTDOWN
