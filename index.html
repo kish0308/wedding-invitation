@@ -41,32 +41,30 @@ body {
   pointer-events: all;
 }
 
-/* 🧠 FIX LAYER STACKING */
+/* 🔥 INTRO FIX LAYERS */
 #sceneintro {
   z-index: 999;
+  position: fixed;
 }
 
-/* 🎥 INTRO VIDEO */
-#introVideo {
+/* 🎥 VIDEO LAYER (NEVER BLOCKS CLICKS) */
+.intro-video-layer {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  inset: 0;
   z-index: 0;
   pointer-events: none;
 }
 
-/* 🧠 INTRO OVERLAY MUST BE ABOVE VIDEO */
-.intro-layer {
-  position: absolute;
+#introVideo {
   width: 100%;
   height: 100%;
-  z-index: 1;
+  object-fit: cover;
 }
 
-.intro-center {
+/* 🎯 UI LAYER */
+.intro-ui {
   position: relative;
-  z-index: 2;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -106,7 +104,8 @@ body {
   color: white;
   cursor: pointer;
   position: relative;
-  z-index: 10;
+  z-index: 20;
+  pointer-events: auto;
 }
 
 /* 📸 SLIDESHOW */
@@ -159,24 +158,22 @@ body {
 <!-- 🎬 INTRO -->
 <div class="scene active" id="sceneintro">
 
-  <div class="intro-layer">
-
+  <div class="intro-video-layer">
     <video id="introVideo" muted playsinline>
       <source src="prenup.mp4" type="video/mp4">
     </video>
+  </div>
 
-    <div class="intro-center">
-      <div class="title">Kish & Glydel</div>
+  <div class="intro-ui">
+    <div class="title">Kish & Glydel</div>
 
-      <div class="narration">
-        Choose how you want to experience our wedding film:
-      </div>
-
-      <button class="btn" onclick="startExperience('romantic')">💖 Romantic Story</button>
-      <button class="btn" onclick="startExperience('cinematic')">🎬 Cinematic Documentary</button>
-      <button class="btn" onclick="startExperience('fast')">⚡ Skip to Wedding Day</button>
+    <div class="narration">
+      Choose how you want to experience our wedding film:
     </div>
 
+    <button class="btn" onclick="startExperience('romantic')">💖 Romantic Story</button>
+    <button class="btn" onclick="startExperience('cinematic')">🎬 Cinematic Documentary</button>
+    <button class="btn" onclick="startExperience('fast')">⚡ Skip to Wedding Day</button>
   </div>
 
 </div>
@@ -261,15 +258,29 @@ function go(scene){
   document.getElementById("scene"+scene).classList.add("active");
 }
 
-/* 🎬 INTRO FIXED */
+/* 🎬 INTRO FIX (100% RELIABLE) */
 function startExperience(type){
   const video = document.getElementById("introVideo");
 
+  video.muted = true;
+  video.playsInline = true;
+
   video.play().catch(()=>{});
 
+  setTimeout(()=>{
+    if(type === "fast"){
+      go(4);
+    } else {
+      go(2);
+    }
+  }, 2000);
+
   video.onended = () => {
-    if(type === "fast") go(4);
-    else go(2);
+    if(type === "fast"){
+      go(4);
+    } else {
+      go(2);
+    }
   };
 }
 
@@ -309,7 +320,7 @@ setInterval(()=>{
 
 },1000);
 
-/* START */
+/* START SLIDES */
 window.onload = startSlides;
 
 </script>
