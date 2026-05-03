@@ -20,19 +20,19 @@ body {
   width: 100%;
   height: 100%;
   background: radial-gradient(circle at center, #0d0d0d, #000);
-  z-index: -3;
+  z-index: -5;
 }
 
 /* 🎬 SCENES */
 .scene {
   position: fixed;
   inset: 0;
-  opacity: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: 1s ease;
+  opacity: 0;
   pointer-events: none;
+  transition: 1s ease;
   z-index: 1;
 }
 
@@ -42,17 +42,18 @@ body {
   z-index: 10;
 }
 
-/* 🎥 VIDEO (IMPORTANT FIX) */
+/* 🎥 VIDEO LAYER (CRITICAL FIX) */
 #introVideo {
   position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   z-index: 0;
-  pointer-events: none; /* CRITICAL FIX */
+  pointer-events: none; /* 🔥 THIS IS THE FIX */
 }
 
-/* 🎞️ CENTER INTRO */
+/* 🎞️ INTRO UI */
 .intro-center {
   position: relative;
   z-index: 5;
@@ -85,10 +86,10 @@ body {
   align-items: center;
 }
 
-/* 🎬 BUTTON (FORCE CLICKABLE) */
+/* 🎬 BUTTON (FORCE CLICK SAFE) */
 .btn {
   position: relative;
-  z-index: 999;
+  z-index: 9999;
   margin-top: 12px;
   padding: 12px 18px;
   border: none;
@@ -99,7 +100,7 @@ body {
   pointer-events: auto;
 }
 
-/* 📸 SLIDESHOW (NO ZOOM) */
+/* 📸 SLIDESHOW */
 .slideshow {
   position: relative;
   width: 100%;
@@ -115,8 +116,6 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  top: 0;
-  left: 0;
   opacity: 0;
   transition: opacity 1s ease;
 }
@@ -246,12 +245,13 @@ function go(scene){
   document.getElementById("scene"+scene).classList.add("active");
 }
 
-/* ✅ FIXED INTRO */
+/* ✅ FIXED BUTTON SYSTEM */
 function choosePath(type){
-
   const video = document.getElementById("introVideo");
 
-  // ensure safe playback
+  // ensure video never blocks UI
+  video.style.pointerEvents = "none";
+
   video.play().catch(()=>{});
 
   if(type === "fast"){
