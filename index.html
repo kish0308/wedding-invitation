@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Kish & Glydel | Wedding Film – Recentered</title>
+<title>Kish & Glydel | Wedding Film – With Music</title>
 <style>
 * {
   margin: 0;
@@ -185,15 +185,58 @@ iframe {
   margin: 12px 0;
 }
 
+/* Music control button styling */
+.music-control {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(212,175,55,0.5);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 24px;
+  transition: all 0.2s ease;
+  color: #d4af37;
+}
+
+.music-control:hover {
+  transform: scale(1.05);
+  background: rgba(0,0,0,0.8);
+  border-color: #e6c353;
+}
+
+.music-control.muted {
+  opacity: 0.7;
+  color: #aaa;
+}
+
 @media (max-width: 550px) {
   .title { font-size: 2.2rem; }
   .btn { min-width: 140px; padding: 10px 16px; font-size: 0.85rem; }
   .slideshow { height: 200px; max-width: 260px; }
+  .music-control { width: 40px; height: 40px; font-size: 20px; bottom: 15px; right: 15px; }
 }
 </style>
 </head>
 <body>
 <div class="bg"></div>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop preload="auto">
+  <source src="wedding-music.mp3" type="audio/mpeg">
+  <!-- Fallback if mp3 is missing, you can also embed a base64 silent sample or just rely on file -->
+  Your browser does not support the audio element.
+</audio>
+
+<!-- Floating Music Control Button -->
+<div class="music-control" id="musicControl" title="Music Control">🔊</div>
 
 <!-- 🎬 INTRO with your prenup.mp4 -->
 <div class="scene active" id="sceneintro">
@@ -278,6 +321,109 @@ iframe {
 </div>
 
 <script>
+  // ----------------------------------------------
+  // MUSIC MANAGEMENT WITH AUTO-PLAY (handling browser policies)
+  // ----------------------------------------------
+  const audioElement = document.getElementById('bgMusic');
+  const musicControlBtn = document.getElementById('musicControl');
+  let isMusicPlaying = false;
+  let musicInitiated = false;
+  
+  // Function to attempt playing music (respecting user interaction)
+  function playBackgroundMusic() {
+    if (audioElement && !isMusicPlaying) {
+      audioElement.play().then(() => {
+        isMusicPlaying = true;
+        musicControlBtn.innerHTML = '🔊';
+        musicControlBtn.classList.remove('muted');
+        console.log('Background music started');
+      }).catch(err => {
+        console.log('Audio autoplay blocked, waiting for user interaction:', err);
+        // fallback: show control, but don't mark as playing
+        isMusicPlaying = false;
+        musicControlBtn.innerHTML = '🔇';
+        musicControlBtn.classList.add('muted');
+      });
+    }
+  }
+  
+  // Toggle music on/off via button
+  function toggleMusic() {
+    if (!audioElement) return;
+    if (isMusicPlaying) {
+      audioElement.pause();
+      isMusicPlaying = false;
+      musicControlBtn.innerHTML = '🔇';
+      musicControlBtn.classList.add('muted');
+    } else {
+      audioElement.play().then(() => {
+        isMusicPlaying = true;
+        musicControlBtn.innerHTML = '🔊';
+        musicControlBtn.classList.remove('muted');
+      }).catch(e => {
+        console.log('Could not play audio on user request:', e);
+      });
+    }
+  }
+  
+  // Try to autoplay music as soon as any user interaction occurs (first click/tap)
+  // Also set volume to a pleasant level
+  if (audioElement) {
+    audioElement.volume = 0.55;
+    audioElement.loop = true;
+  }
+  
+  // Modern approach: listen for first user interaction (touch or click anywhere)
+  // then start music. This satisfies most browsers autoplay policies.
+  let interactionHandled = false;
+  function handleFirstInteraction() {
+    if (!interactionHandled) {
+      interactionHandled = true;
+      playBackgroundMusic();
+      // remove listeners after first interaction
+      document.removeEventListener('click', handleFirstInteraction);
+      document.removeEventListener('touchstart', handleFirstInteraction);
+      document.removeEventListener('keydown', handleFirstInteraction);
+    }
+  }
+  
+  // Attach global listeners for first interaction (ensures music starts on any tap/click)
+  document.addEventListener('click', handleFirstInteraction);
+  document.addEventListener('touchstart', handleFirstInteraction);
+  document.addEventListener('keydown', handleFirstInteraction);
+  
+  // Also, if a button is clicked inside the scenes (already covered but ensure music starts)
+  // Additionally, when the page loads, try a silent attempt to preload but do not rely on it.
+  window.addEventListener('load', function() {
+    // Force audio preload but not autoplay (preload metadata)
+    if (audioElement) {
+      audioElement.load();
+    }
+    // small fallback: after 2 seconds, if no interaction happened yet, we do nothing,
+    // but we also want to show that music is waiting. The control will be visible.
+    setTimeout(() => {
+      if (!interactionHandled) {
+        console.log("Waiting for user interaction to start romantic music...");
+        musicControlBtn.innerHTML = '🔇';
+        musicControlBtn.classList.add('muted');
+      }
+    }, 1000);
+  });
+  
+  // Control button event
+  musicControlBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleMusic();
+    // If user clicked the control, we consider interaction handled for autoplay purposes
+    if (!interactionHandled) {
+      interactionHandled = true;
+      // remove other listeners since we got interaction
+      document.removeEventListener('click', handleFirstInteraction);
+      document.removeEventListener('touchstart', handleFirstInteraction);
+      document.removeEventListener('keydown', handleFirstInteraction);
+    }
+  });
+  
   // ----------------------------------------------
   // SLIDESHOW MANAGEMENT (all episodes)
   // ----------------------------------------------
@@ -467,6 +613,11 @@ iframe {
         }
       });
     }, 500);
+    
+    // Additional note: Prevent music button from interfering with slideshow intervals
+    // Ensure audio file exists: "wedding-music.mp3" is the expected file 
+    // If you have a different music file name, please rename or replace src in audio tag.
+    // For robust testing, if the file is missing the control still works as fallback.
   });
 </script>
 </body>
